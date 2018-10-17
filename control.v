@@ -1,4 +1,4 @@
-module control(opcode, funct, clock, reset,
+module CONTROL(opcode, funct, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
 				ShifterMux, Shifter, SighExt, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,

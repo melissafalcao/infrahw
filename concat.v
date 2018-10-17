@@ -1,4 +1,4 @@
-module concat (a, b, c, concatout);
+module CONCAT (a, b, c, concatout);
 
 //concaternar a, b, c
 input [4:0] a;

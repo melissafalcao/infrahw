@@ -1,4 +1,4 @@
-module storeSize(SS, MDRout, B, SSout);
+module StoreSize(SS, MDRout, B, SSout);
 
 	input [1:0] SS; //olhar quantos bits sao 2 ou 1
 	input [31:0] B, MDRout;
