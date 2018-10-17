@@ -1,14 +1,15 @@
 module mux6(
-   input logic [2:0] PCmux,
-   input logic [31:0] A,
-   input logic [31:0] ULAout,
-   input logic [31:0] SLAC,
-   input logic [31:0] EPCout,
-   input logic [31:0] MDRout,
-   input logic [31:0] ulaResult,
-   output logic [31:0] MUX6out);
+   input [2:0] PCmux,
+   input [31:0] A,
+   input [31:0] ULAout,
+   input [31:0] SLAC,
+   input [31:0] EPCout,
+   input [31:0] MDRout,
+   input [31:0] ulaResult,
+   input [31:0] Mem,
+   output [31:0] MUX6out);
 
-always_comb begin
+begin
    case (PCmux)
       3'b000
          MUXout[31:0] <= A[31:0];
@@ -22,6 +23,8 @@ always_comb begin
          MUXout[31:0] <= MDRout[31:0];
       3'b101
          MUXout[31:0] <= ulaResult[31:0];
+      3'b110
+         MUXout[31:0] <= Mem[31:0];
 end
 
 endmodule: mux6
