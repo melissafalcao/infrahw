@@ -1,4 +1,5 @@
 module mux1(
+	input  [2:0] MemoryAdress,
 	input  [31:0] pc,
 	input  [31:0] ulaResult,
 	input  [31:0] ext16_32, 
@@ -6,8 +7,7 @@ module mux1(
     	input  [31:0] input_253,
     	input  [31:0] input_254,
     	input  [31:0] input_255,
-    	input  [31:0] ext25_32,
-	input  [2:0] MemoryAdress, 
+    	input  [31:0] ext25_32, 
 	output  [31:0] out);
 
 begin
