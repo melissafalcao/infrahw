@@ -1,13 +1,13 @@
 module mux1(
-    input logic [31:0] pc,
+	input logic [31:0] pc,
 	input logic [31:0] ulaResult,
 	input logic [31:0] ext16_32, 
-    input logic [31:0] ulaOut,
-    input logic [31:0] input_253,
-    input logic [31:0] input_254,
-    input logic [31:0] input_255,
-    input logic [31:0] ext25_32,
-	input logic [1:0] MemoryAdress, 
+    	input logic [31:0] ulaOut,
+    	input logic [31:0] input_253,
+    	input logic [31:0] input_254,
+    	input logic [31:0] input_255,
+    	input logic [31:0] ext25_32,
+	input logic [2:0] MemoryAdress, 
 	output logic [31:0] out);
 
 always_comb begin
