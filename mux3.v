@@ -1,7 +1,7 @@
 module mux3(
+    input WriteReg[1:0],
     input imediato[15:0],
     input rt[4:0],
-    input WriteReg[1:0],
     output MUX3out[4:0]
 );
 
