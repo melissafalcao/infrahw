@@ -1,8 +1,8 @@
 module mux4(
+    input ULAa[1:0],
     input pc[31:0],
     input mdr[31:0],
     input a[31:0],
-    input ULAa[1:0],
     output Mux4out[31:0]
 );
 
