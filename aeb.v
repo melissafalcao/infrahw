@@ -4,4 +4,6 @@ module aeb(ReadData1, ReadData2, A, B);
 	input [31:0]  ReadData1, ReadData2; 
 	output [31:0]  A, B;
 
+
+
 endmodule
