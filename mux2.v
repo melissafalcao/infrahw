@@ -1,11 +1,11 @@
 module mux2(
+    input [2:0] WriteData,
     input [31:0] ulaOut,
     input [31:0] LSout,
     input [31:0] HIout,
     input [31:0] LOout,
     input [31:0] Shiftout,
     input [31:0] LT32,
-    input [2:0] WriteData,
     output [31:0] MUX2out);
     
 begin
