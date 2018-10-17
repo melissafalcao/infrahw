@@ -12,19 +12,19 @@ module mux6(
 begin
    case (PCmux)
       3'b000
-         MUXout[31:0] <= A[31:0];
+         MUX6out[31:0] <= A[31:0];
       3'b001
-         MUXout[31:0] <= ULAout[31:0];
+         MUX6out[31:0] <= ULAout[31:0];
       3'b010
-         MUXout[31:0] <= SLAC[31:0];
+         MUX6out[31:0] <= SLAC[31:0];
       3'b011
-         MUXout[31:0] <= EPCout[31:0];
+         MUX6out[31:0] <= EPCout[31:0];
       3'b100
-         MUXout[31:0] <= MDRout[31:0];
+         MUX6out[31:0] <= MDRout[31:0];
       3'b101
-         MUXout[31:0] <= ulaResult[31:0];
+         MUX6out[31:0] <= ulaResult[31:0];
       3'b110
-         MUXout[31:0] <= Mem[31:0];
+         MUX6out[31:0] <= Mem[31:0];
 end
 
 endmodule: mux6
