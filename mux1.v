@@ -1,16 +1,16 @@
 module mux1(
-	input logic [31:0] pc,
-	input logic [31:0] ulaResult,
-	input logic [31:0] ext16_32, 
-    	input logic [31:0] ulaOut,
-    	input logic [31:0] input_253,
-    	input logic [31:0] input_254,
-    	input logic [31:0] input_255,
-    	input logic [31:0] ext25_32,
-	input logic [2:0] MemoryAdress, 
-	output logic [31:0] out);
+	input  [31:0] pc,
+	input  [31:0] ulaResult,
+	input  [31:0] ext16_32, 
+    	input  [31:0] ulaOut,
+    	input  [31:0] input_253,
+    	input  [31:0] input_254,
+    	input  [31:0] input_255,
+    	input  [31:0] ext25_32,
+	input  [2:0] MemoryAdress, 
+	output  [31:0] out);
 
-always_comb begin
+begin
 	case (MemoryAdress)
 		3'b000: begin
 			Mux1out[31:0] <= pc[31:0];
