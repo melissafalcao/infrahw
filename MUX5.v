@@ -1,11 +1,7 @@
-module mux5(
-   input [2:0] ULAb,
-   input [31:0]  B,
-   input [31:0] ext16_32,
-   input [31:0] reg4,
-   input [31:0] reg1,
-   input [31:0] ext16_32_left_shifted,
-   output [31:0] MUX5out);
+module MUX5(ULAb, B, ext16_32, reg4, reg1, ext16_32_left_shifted, MUX5out);
+ 	input [2:0] ULAb; 
+	input [31:0]  B, ext16_32, reg4, reg1, ext16_32_left_shifted; 
+	output [31:0] MUX5out;
  
 begin
    case (PCmux)
@@ -21,4 +17,4 @@ begin
          MUX5out[31:0] <= ext16_32_left_shifted[31:0];
 end
 
-endmodule: mux5
+endmodule: MUX5
