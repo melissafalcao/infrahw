@@ -1,7 +1,7 @@
-module MUX1 (MemoryAdress, ext25_32, PC, ulaResult, ext16_32, ULAout, reg253, reg254, reg255, MUX1out);
+module MUX1 (MemoryAdress, ext25_32, PC, ulaResult, ext16_32, ULAout,MUX1out);
 	
 	input [2:0] MemoryAdress;
-	input [31:0] ext25_32, PC, ulaResult, ext16_32, ULAout, reg253, reg254, reg255;
+	input [31:0] ext25_32, PC, ulaResult, ext16_32, ULAout;
 	output reg[31:0] MUX1out;
 
 always @(*)
