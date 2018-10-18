@@ -5,14 +5,14 @@ module CONTROL(opcode, funct, clock, reset,
 				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, 
 				);
 				
-		input reg[5:0] opcode;
-		input clock, reset,GT,LT,EG,N,ZERO,O;//tem umas saidas do bloco da ula aqui
+		input reg[5:0] opcode,funct;
+		input wire clock, reset,GT,LT,EG,N,ZERO,O,Div0;//tem umas saidas do bloco da ula aqui
+				    
 		
-		///CORRIGIR OS TAMANHOS DESSES OUTPUTS, TEM VARIOS COM MAIS DE UM BIT
-		output PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
-				ShifterMux, Shifter, SighExt, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
-				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite;
-				//aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaCORRIGIR ACIMA
+	
+		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,ALUOUT,EPC,MDcontrol, MUX14;
+		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter ,LS,SS, MemoryAdress;
+		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData ;
 		
 		
 		reg [2:0]estadoatual;
@@ -33,7 +33,7 @@ module CONTROL(opcode, funct, clock, reset,
 		//opcodes acima
 		initial begin
 		  estadoatual = estado0;
-		  PCwrite=0;
+		  PCwrite=1'd0;
 		end
 
 always @(posedge clock)begin
@@ -42,9 +42,9 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado1) begin
 	//pc+4 e leitura de instrucao
-		PCwrite=1;
+		PCwrite=1'd1;
 		MemoryAdress=3'd0;
-		wr=0;
+		wr=1'd0;
 		ULAa=2'd0;
 		ULAb=3'd2;
 		ULAcontrol=3'd1;
@@ -53,13 +53,13 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado2) begin
 		//lê opcode e decodifica branch
-		PCwrite=0;//como é reg, ele vai ficar salvo até entrar em outro estado onde PCwrite=1
+		PCwrite=1'd0;//como é reg, ele vai ficar salvo até entrar em outro estado onde PCwrite=1
 		
 		ULAa=2'd0;
 		ULAb=3'd4;
 		ULAcontrol=3'd1;
-		RegWrite=0;
-		ALUOUT=1;
+		RegWrite=1'd0;
+		ALUOUT=1'd1;
 
 		estadoatual=estado3;
 	end
@@ -69,21 +69,21 @@ always @(posedge clock)begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd1;
-			ALUOUT=1;  
+			ALUOUT=1'd1;  
 			estadoatual=estado4;
 		end
 		else if (opcode==SUB) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd2;
-			ALUOUT=1;
+			ALUOUT=1'd1;
 			estadoatual=estado4;
 		end
 		else if (opcode==AND) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd3;
-			ALUOUT=1;
+			ALUOUT=1'd1;
 			estadoatual=estado4;
 		end
 		/*else if condition begin
@@ -98,15 +98,15 @@ always @(posedge clock)begin
 			  ULAa = 2'd0;
 			  ULAb = 3'd2;
 			  ULAcontrol=3'd2;
-			  EPC = 1;
+			  EPC = 1'd1;
 			  MemoryAdress=3'd5;
 			  PCmux=3'd6;
 			  estadoatual=estado1;//recomeça
 			end
 			else begin//not overflow
-				WriteData=0;
-				WriteReg=0;
-				RegWrite=1;
+				WriteData=1'd0;
+				WriteReg=1'd0;
+				RegWrite=1'd1;
 				estadoatual=estado1;
 			end
 		end//add
@@ -116,23 +116,23 @@ always @(posedge clock)begin
 				ULAa = 2'd0;
 				ULAb = 3'd2;
 				ULAcontrol=3'd2;
-				EPC = 1;
+				EPC = 1'd1;
 				MemoryAdress=3'd5;
 				PCmux=3'd6;
 				estadoatual=estado1;//recomeça
 			end
 			else begin//not overflow
-				WriteData=0;
-				WriteReg=0;
-				RegWrite=1;
+				WriteData=1'd0;
+				WriteReg=1'd0;
+				RegWrite=1'd1;
 				estadoatual=estado1;
 			end
 		end//sub
 	///////comentario separador de opcodes
 		else if (opcode==AND) begin
-			WriteData=0;
-			WriteReg=0;
-			RegWrite=1;
+			WriteData=1'd0;
+			WriteReg=1'd0;
+			RegWrite=1'd1;
 			estadoatual=estado1;
 		end//and
 	///////comentario separador de opcodes
