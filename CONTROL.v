@@ -23,10 +23,9 @@ module CONTROL(opcode, funct, clock, reset,
 		parameter estado4 = 3'd4;
 		parameter estado5 = 3'd5;
 		//opcodes abaixo
-		parameter ADD = 5'd10;//corrigir
-		parameter AND = 5'd10//corrigir com valoers corretos
-		parameter SUB = 5'd10//corrigir
-
+		parameter ADD = 6'd0;//funct 0x20
+		parameter AND = 6'd0//funct 0x24
+		parameter SUB = 6'd0//funct 0x22
 		//etc..
 
 
@@ -65,21 +64,21 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado3) begin
 		//começo de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
-		if(opcode==ADD)begin
+		if(funct==ADD and opcode==6'd0)begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd1;
 			ALUOUT=1'd1;  
 			estadoatual=estado4;
 		end
-		else if (opcode==SUB) begin
+		else if (funct==SUB and opcode==6'd0) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd2;
 			ALUOUT=1'd1;
 			estadoatual=estado4;
 		end
-		else if (opcode==AND) begin
+		else if (funct==AND and opcode==6'd0) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd3;
@@ -93,7 +92,7 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado4) begin
 		//um if pra cada opcode (continuacao do estado anterior)
-		if(opcode==ADD)begin
+		if(funct==ADD and opcode==6'd0)begin
 			if(O==1) begin//overflow
 			  ULAa = 2'd0;
 			  ULAb = 3'd2;
@@ -111,7 +110,7 @@ always @(posedge clock)begin
 			end
 		end//add
 	///////comentario separador de opcodes	
-		else if (opcode==SUB) begin
+		else if (funct==SUB and opcode==6'd0) begin
 			if(O==1) begin//overflow
 				ULAa = 2'd0;
 				ULAb = 3'd2;
@@ -129,7 +128,7 @@ always @(posedge clock)begin
 			end
 		end//sub
 	///////comentario separador de opcodes
-		else if (opcode==AND) begin
+		else if (funct==AND and opcode==6'd0) begin
 			WriteData=1'd0;
 			WriteReg=1'd0;
 			RegWrite=1'd1;
