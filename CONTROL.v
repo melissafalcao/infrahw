@@ -1,8 +1,8 @@
 module CONTROL(opcode, funct, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
-				ShifterMux, Shifter, SighExt, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
-				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, GT,LT,EG,N,ZERO,O,Div0
+				ShifterMux, Shifter, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
+				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, GT, LT, EG, N, ZERO, O
 				);
 				
 		input [5:0] opcode,funct;
@@ -51,8 +51,8 @@ always @(posedge clock)begin
 		estadoatual=estado2;//muda estado
 	end
 	else if (estadoatual==estado2) begin
-		//lê opcode e decodifica branch
-		PCwrite=1'd0;//como é reg, ele vai ficar salvo até entrar em outro estado onde PCwrite=1
+		//l� opcode e decodifica branch
+		PCwrite=1'd0;//como � reg, ele vai ficar salvo at� entrar em outro estado onde PCwrite=1
 		
 		ULAa=2'd0;
 		ULAb=3'd4;
@@ -63,7 +63,7 @@ always @(posedge clock)begin
 		estadoatual=estado3;
 	end
 	else if (estadoatual==estado3) begin
-		//começo de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
+		//come�o de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
 		if(funct==ADD && opcode==6'd0)begin
 			ULAa=2'd2;
 			ULAb=3'd0;
@@ -100,7 +100,7 @@ always @(posedge clock)begin
 			  EPC = 1'd1;
 			  MemoryAdress=3'd5;
 			  PCmux=3'd6;
-			  estadoatual=estado1;//recomeça
+			  estadoatual=estado1;//recome�a
 			end
 			else begin//not overflow
 				WriteData=1'd0;
@@ -118,7 +118,7 @@ always @(posedge clock)begin
 				EPC = 1'd1;
 				MemoryAdress=3'd5;
 				PCmux=3'd6;
-				estadoatual=estado1;//recomeça
+				estadoatual=estado1;//recome�a
 			end
 			else begin//not overflow
 				WriteData=1'd0;
@@ -150,4 +150,4 @@ always @(posedge clock)begin
 
 end//end always
 
-endmodule		
+endmodule
