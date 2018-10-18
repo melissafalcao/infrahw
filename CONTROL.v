@@ -2,10 +2,10 @@ module CONTROL(opcode, funct, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
 				ShifterMux, Shifter, SighExt, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
-				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, 
+				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, GT,LT,EG,N,ZERO,O,Div0
 				);
 				
-		input reg[5:0] opcode,funct;
+		input [5:0] opcode,funct;
 		input wire clock, reset,GT,LT,EG,N,ZERO,O,Div0;//tem umas saidas do bloco da ula aqui
 				    
 		
@@ -24,8 +24,8 @@ module CONTROL(opcode, funct, clock, reset,
 		parameter estado5 = 3'd5;
 		//opcodes abaixo
 		parameter ADD = 6'd32;//funct 0x20
-		parameter AND = 6'd36//funct 0x24
-		parameter SUB = 6'd34//funct 0x22
+		parameter AND = 6'd36;//funct 0x24
+		parameter SUB = 6'd34;//funct 0x22
 		//etc..
 
 
@@ -145,7 +145,7 @@ always @(posedge clock)begin
 	end//end estado4
 	else if (estadoatual==estado5) begin
 		//um if pra cada opcode (continuacao do estado anterior)
-		pass
+		pass;
 	end//end estado5
 
 end//end always
