@@ -23,9 +23,9 @@ module CONTROL(opcode, funct, clock, reset,
 		parameter estado4 = 3'd4;
 		parameter estado5 = 3'd5;
 		//opcodes abaixo
-		parameter ADD = 6'd0;//funct 0x20
-		parameter AND = 6'd0//funct 0x24
-		parameter SUB = 6'd0//funct 0x22
+		parameter ADD = 6'd32;//funct 0x20
+		parameter AND = 6'd36//funct 0x24
+		parameter SUB = 6'd34//funct 0x22
 		//etc..
 
 
