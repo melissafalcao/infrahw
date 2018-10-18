@@ -64,21 +64,21 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado3) begin
 		//começo de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
-		if(funct==ADD and opcode==6'd0)begin
+		if(funct==ADD && opcode==6'd0)begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd1;
 			ALUOUT=1'd1;  
 			estadoatual=estado4;
 		end
-		else if (funct==SUB and opcode==6'd0) begin
+		else if (funct==SUB && opcode==6'd0) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd2;
 			ALUOUT=1'd1;
 			estadoatual=estado4;
 		end
-		else if (funct==AND and opcode==6'd0) begin
+		else if (funct==AND && opcode==6'd0) begin
 			ULAa=2'd2;
 			ULAb=3'd0;
 			ULAcontrol=3'd3;
@@ -92,7 +92,7 @@ always @(posedge clock)begin
 	end
 	else if (estadoatual==estado4) begin
 		//um if pra cada opcode (continuacao do estado anterior)
-		if(funct==ADD and opcode==6'd0)begin
+		if(funct==ADD && opcode==6'd0)begin
 			if(O==1) begin//overflow
 			  ULAa = 2'd0;
 			  ULAb = 3'd2;
@@ -110,7 +110,7 @@ always @(posedge clock)begin
 			end
 		end//add
 	///////comentario separador de opcodes	
-		else if (funct==SUB and opcode==6'd0) begin
+		else if (funct==SUB && opcode==6'd0) begin
 			if(O==1) begin//overflow
 				ULAa = 2'd0;
 				ULAb = 3'd2;
@@ -128,12 +128,12 @@ always @(posedge clock)begin
 			end
 		end//sub
 	///////comentario separador de opcodes
-		else if (funct==AND and opcode==6'd0) begin
+		else if (funct==AND && opcode==6'd0) begin
 			WriteData=1'd0;
 			WriteReg=1'd0;
 			RegWrite=1'd1;
 			estadoatual=estado1;
-		end//and
+		end//&&
 	///////comentario separador de opcodes
 
 
