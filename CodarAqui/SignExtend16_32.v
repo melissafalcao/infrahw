@@ -1,6 +1,6 @@
 //FUNCIONANDO
 module SignExtend16_32(imediato,  ext16_32);
-	input [15:0]  imediato,;
+	input [15:0]  imediato;
 	output reg [31:0]  ext16_32;
 	
 always @(*)
