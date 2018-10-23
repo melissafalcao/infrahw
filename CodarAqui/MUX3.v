@@ -1,3 +1,4 @@
+//FUNCIONANDO
 module MUX3(WriteReg, imediato, rt,MUX3out);
  	input [1:0] WriteReg; 
 	input [15:0] imediato; //pegar [15..11] do imediato no caso  dw ele ser a saida
@@ -8,7 +9,7 @@ always @(*)
 begin
     case (WriteReg)
         2'b00: begin
-            MUX3out[4:0] <= imediato[15:11];
+            MUX3out[4:0] <= imediato[15:11];//ok
         end
         2'b01: begin
             MUX3out[4:0] <= rt[4:0];
