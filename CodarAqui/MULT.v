@@ -91,7 +91,7 @@ module MULT(clock, reset, comeco, a, b, hi, lo);
 				end
             contador = contador + 1'd1;
             end
-        if (contador == 5'd32) begin
+        if (contador == 5'd33) begin
             estado = fim;
         end
         end
