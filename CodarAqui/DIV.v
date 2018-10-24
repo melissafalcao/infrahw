@@ -27,7 +27,7 @@ module testdiv(clock, reset, A, B, hidiv, lodiv, Div0);
 	end
 
 	always @(posedge clock)	begin
-		// só opera se o controle solicitar a divisão:
+		// verifica a contagem
 		if(contador != 6'd32) begin
 			// se o divisor for zero, seta a excessão:
 			if(B[31:0] == 32'd0) begin
@@ -44,20 +44,36 @@ module testdiv(clock, reset, A, B, hidiv, lodiv, Div0);
 					// algoritmo de subtrações sucessivas:
 					resto[63:0] = resto[63:0] - divisor[63:0];
 					if(resto[63:0] >= 64'd0) begin
-						quociente[31:0] = quociente[31:0] << 1'd1;
+						quociente[31:0] = quociente[31:0] << 1;
 						quociente[0] = 1;
-						divisor[63:0] = divisor[63:0] >> 1'd1;
+						divisor[63:0] = divisor[63:0] >> 1;
 					end
 					if(resto[63:0] < 64'd0) begin
 						resto[63:0] = resto[63:0] + divisor[63:0];
-						quociente[31:0] = quociente[31:0] << 1'd1;
+						quociente[31:0] = quociente[31:0] << 1;
 						quociente[0] = 0;
-						divisor[63:0] = divisor[63:0] >> 1'd1;
+						divisor[63:0] = divisor[63:0] >> 1;
 					end
 					// incrementa a contagem:
 					contador = contador + 6'd1;
 					// se chegar ao fim da contagem, seta as saídas:
 					if(contador == 6'd32) begin
+						// adianta a última iteração:
+						resto[63:0] = resto[63:0] - divisor[63:0];
+						if(resto[63:0] >= 64'd0) begin
+							quociente[31:0] = quociente[31:0] << 1;
+							quociente[0] = 1;
+							divisor[63:0] = divisor[63:0] >> 1;
+						end
+						if(resto[63:0] < 64'd0) begin
+							resto[63:0] = resto[63:0] + divisor[63:0];
+							quociente[31:0] = quociente[31:0] << 1;
+							quociente[0] = 0;
+							divisor[63:0] = divisor[63:0] >> 1;
+						end
+						// incrementa a contagem:
+						contador = contador + 6'd1;
+						// se chegar ao fim da contagem, seta as saídas:
 						hidiv[31:0] = resto[31:0];
 						lodiv[31:0] = quociente[31:0];
 						estado = espera;
