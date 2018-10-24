@@ -71,8 +71,6 @@ module testdiv(clock, reset, A, B, hidiv, lodiv, Div0);
 							quociente[0] = 0;
 							divisor[63:0] = divisor[63:0] >> 1;
 						end
-						// incrementa a contagem:
-						contador = contador + 6'd1;
 						// se chegar ao fim da contagem, seta as saídas:
 						hidiv[31:0] = resto[31:0];
 						lodiv[31:0] = quociente[31:0];
