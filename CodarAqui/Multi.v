@@ -1,4 +1,4 @@
-module Multi(clock, reset, comeco, a, b, hi, lo,i);
+module MULT(clock, reset, comeco, a, b, hi, lo,i);
 
     input wire reset;
     input wire clock;
