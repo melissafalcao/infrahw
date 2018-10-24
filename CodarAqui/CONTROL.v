@@ -1,11 +1,11 @@
-module CONTROL(opcode, funct, clock, reset,
+module CONTROL(opcode, imediato, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
 				ShifterMux, Shifter, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
 				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, GT, LT, EG, N, ZERO, O
 				);
 				
-		input [5:0] opcode,funct;
+		input [5:0] opcode;
 		input wire clock, reset,GT,LT,EG,N,ZERO,O,Div0;//tem umas saidas do bloco da ula aqui
 				    
 		
@@ -14,7 +14,7 @@ module CONTROL(opcode, funct, clock, reset,
 		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter , MemoryAdress;
 		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData,LS,SS ;
 		
-		
+		reg[5:0] funct;
 		reg [2:0]estadoatual;
 		parameter estado0 = 3'd0;//estado inicial do controle
 		parameter estado1 = 3'd1;
@@ -31,6 +31,7 @@ module CONTROL(opcode, funct, clock, reset,
 
 		//opcodes acima
 		initial begin
+		  funct = imediato[5:0];
 		  estadoatual = estado0;
 		  PCwrite=1'd0;
 		end
@@ -51,8 +52,8 @@ always @(posedge clock)begin
 		estadoatual=estado2;//muda estado
 	end
 	else if (estadoatual==estado2) begin
-		//lê opcode e decodifica branch
-		PCwrite=1'd0;//como é reg, ele vai ficar salvo até entrar em outro estado onde PCwrite=1
+		//lï¿½ opcode e decodifica branch
+		PCwrite=1'd0;//como ï¿½ reg, ele vai ficar salvo atï¿½ entrar em outro estado onde PCwrite=1
 		
 		ULAa=2'd0;
 		ULAb=3'd4;
@@ -63,7 +64,7 @@ always @(posedge clock)begin
 		estadoatual=estado3;
 	end
 	else if (estadoatual==estado3) begin
-		//começo de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
+		//comeï¿½o de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
 		if(funct==ADD && opcode==6'd0)begin
 			ULAa=2'd2;
 			ULAb=3'd0;
@@ -100,7 +101,7 @@ always @(posedge clock)begin
 			  EPC = 1'd1;
 			  MemoryAdress=3'd5;
 			  PCmux=3'd6;
-			  estadoatual=estado1;//recomeça
+			  estadoatual=estado1;//recomeï¿½a
 			end
 			else begin//not overflow
 				WriteData=1'd0;
@@ -118,7 +119,7 @@ always @(posedge clock)begin
 				EPC = 1'd1;
 				MemoryAdress=3'd5;
 				PCmux=3'd6;
-				estadoatual=estado1;//recomeça
+				estadoatual=estado1;//recomeï¿½a
 			end
 			else begin//not overflow
 				WriteData=1'd0;

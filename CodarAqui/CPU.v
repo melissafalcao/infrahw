@@ -1,8 +1,9 @@
 module CPU (/*nomes de todos os fios do circuito aqui*/);
+input wire clock, reset;
 
 CONTROL control_(
 			opcode, 
-			funct, 
+			imediato, 
 			clock, 
 			reset,
 			PCwrite, 
@@ -35,20 +36,20 @@ CONTROL control_(
 			ZERO, 
 			O
 );
-CONCAT concat_(
+CONCAT concat_(//ok
 			rs, 
 			rt, 
 			imediato, 
 			concatout
 );
-Banco_reg Bancoreg_(
+Banco_reg Bancoreg_(//ok
 			clock,
 			reset,		
 			RegWrite,	
-			ReadReg1,	
-			ReadReg2,	
-			WriteReg,	
-			WriteData, 	
+			rs,	
+			rt,	
+			MUX3out,//writedata	
+			MUX2out,//data_in 	
 			ReadData1,	
 			ReadData2	
 );
@@ -61,47 +62,47 @@ DIV div_(
 			lodiv, 
 			Div0
 );
-Instr_Reg IR(
-			clock		,
-			reset		,
-			Load_ir		,
-			Entrada		,
-			Instr31_26	,
-			Instr25_21	,
-			Instr20_16	,
-			Instr15_0	
+Instr_Reg IR(//ok
+			clock,
+			reset,
+			IRwrite,
+			MemoryOut,
+			opcode,
+			rs,
+			rt,
+			imediato	
 );
-LoadSize LS(
+LoadSize LS(//ok
 			LS, 
 			MDRout, 
 			LSout
 );
-Memoria mem(
-			Address	,
+Memoria mem(//ok
+			MUX1out	,
 			Clock	,
 			Wr		,
-			Datain	,
-			Dataout	,
+			MUX13out	,
+			MemoryOut	,
 );
 Multi multi(
 			a, 
 			b, 
 			A, 
 			B, 
-			hi, 
-			lo,
+			himult, 
+			lomult,
 			i
 );
-MUX1 mux1(
+MUX1 mux1(//ok
 			MemoryAdress, 
 			PC, 
-			ulaResult, 
+			UlaResult, 
 			ext16_32, 
 			ULAout, 
 			ext25_32, 
 			MUX1out
 );
-MUX2 mux2(
+MUX2 mux2(//ok
 			WriteData, 
 			ULAout, 
 			LSout, 
@@ -111,169 +112,169 @@ MUX2 mux2(
 			LT32, 
 			MUX2out
 );
-MUX3 mux3(
+MUX3 mux3(//ok
 			WriteReg, 
 			imediato, 
 			rt,
 			MUX3out
 );
-MUX4 mux4(
+MUX4 mux4(//ok
 			ULAa, 
-			pc, 
-			mdr, 
-			a, 
+			PCout, 
+			MDRout, 
+			Aout, 
 			MUX4out
 );
-MUX5 mux5(
+MUX5 mux5(//ok
 			ULAb, 
-			B, 
+			Bout, 
 			ext16_32, 
 			ext16_32_left_shifted, 
 			MUX5out
 );
-MUX6 mux6(
+MUX6 mux6(//ok
 			PCmux, 
-			A, 
+			Aout, 
 			ULAout, 
 			SLAC, 
 			EPCout, 
 			MDRout, 
-			ULAresult, 
-			Mem, 
+			UlaResult, 
+			MemoryOut, 
 			MUX6out
 );
-MUX7eMUX8 mux78(
+MUX7eMUX8 mux78(//ajeitar himult e lomult após adicionar mult div caso necessario
 			MDcontrol, 
 			himult, 
 			hidiv, 
 			lomult, 
 			lodiv, 
-			mux7out, 
-			mux8out
+			MUX7out, 
+			MUX8out
 );
-MUX9eMUX10 mux910(
+MUX9eMUX10 mux910(//ok
 			ShifterMux, 
-			A,
-			B, 
+			Aout,
+			Bout, 
 			imediato, 
-			mux9out, 
-			mux10out
+			MUX9out, 
+			MUX10out
 );
-MUX13 mux13(
+MUX13 mux13(//ok
 			MemoryData, 
 			SSout, 
 			ext16_32, 
-			ulaResult, 
+			UlaResult, 
 			MUX13out
 );
-MUX14 mux14(
+MUX14 mux14(//ok
 			MUX14, 
-			ulaResult, 
+			UlaResult, 
 			LSout, 
 			MUX14out
 );
-RegDesloc desloc(
-			Clk		,
-			Reset	,
-			Shift 	,
-			N		,
-			Entrada ,
-			Saida	
+RegDesloc desloc(//ok
+			clock		,
+			reset	,
+			Shifter 	,
+			MUX9out	,
+			MUX10out ,
+			Shiftout	
 );
-ShiftLeft2 SL2(
+ShiftLeft2 SL2(//ok
 			ext16_32, 
 			ext16_32_left_shifted
 );
-ShiftLeft2Concat shiftconcat(
+ShiftLeft2Concat shiftconcat(//ok
 			concatout, 
 			PC, 
 			SLAC
 );
-SignExtend signextend(
+SignExtend signextend(//ok
 			concatout, 
 			ext25_32
 );
-SignExtend16_32 signext16_32(
+SignExtend16_32 signext16_32(//ok
 			imediato,  
 			ext16_32
 );
-StoreSize SS(
+StoreSize SS(//ok
 			SS, 
 			MDRout, 
 			B, 
 			SSout
 );
-ula32 ula(
-			A 			,
-			B 			,
-			Seletor 	,
-			S 			,
+ula32 ula(//ok
+			MUX4out ,
+			MUX5out ,
+			ULAcontrol,
+			UlaResult ,
 			Overflow 	,
 			Negativo	,
-			z			,
-			Igual		,
-			Maior		,
-			Menor		,
+			ZERO			,
+			EG		,
+			GT		,
+			LT		,
 );
-UnitExtend UE(
+UnitExtend UE(//ok
 			LT, 
 			LT32
 );
-Registrador A(
-			Clk		,
-			Reset	,
+Registrador A(//ok
+			clock		,
+			reset	,
 			Load	,
-			Entrada ,
-			Saida	
+			ReadData1 ,
+			Aout	
 );
-Registrador B(
-			Clk		,
-			Reset	,
+Registrador B(//ok
+			clock		,
+			reset	,
 			Load	,
-			Entrada ,
-			Saida	
+			ReadData2 ,
+			Bout	
 );
-Registrador PC(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador PC(//ok
+			clock		,
+			reset	,
+			PCwrite	,
+			MUX6out ,
+			PCout	
 );
-Registrador EPC(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador EPC(//ok
+			clock		,
+			reset	,
+			EPC	,
+			MUX14out ,
+			EPCout	
 );
-Registrador ALUout(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador ALUout(//ok
+			clock		,
+			reset	,
+			ALUOUT	,
+			UlaResult ,
+			EPCout	
 );
-Registrador MDR(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador MDR(//ok
+			clock		,
+			reset	,
+			MDR	,
+			MemoryOut ,
+			MDRout	
 );
-Registrador HI(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador HI(//ok
+			clock		,
+			reset	,
+			HILOWrite	,
+			MUX7out ,
+			HIout	
 );
-Registrador LO(
-			Clk		,
-			Reset	,
-			Load	,
-			Entrada ,
-			Saida	
+Registrador LO(//ok
+			clock		,
+			reset	,
+			HILOWrite	,
+			MUX8out ,
+			LOout	
 );
 
 
