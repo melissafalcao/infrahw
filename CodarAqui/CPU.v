@@ -1,5 +1,160 @@
-module CPU (/*nomes de todos os fios do circuito aqui*/);
-input wire clock, reset;
+module CPU (/*nomes de todos os fios do circuito aqui*/
+ALUOUT,
+Aout,
+Bout,
+clock,
+Div0,
+EG,
+EPC,
+EPCout,
+GT,
+HILOWrite,
+HIout,
+IRwrite,
+LOout,
+LS,
+LSout,
+LT,
+LT32,
+Load,
+MDR,
+MDRout,
+MDcontrol,
+MULTcontrol,
+MUX10out,
+MUX13out,
+MUX14,
+MUX14out,
+MUX1out,
+MUX2out,
+MUX3out,
+MUX4out,
+MUX5out,
+MUX6out,
+MUX7out,
+MUX8out,
+MUX9out,
+MemoryAdress,
+MemoryData,
+MemoryOut,
+Negativo,
+Overflow,
+PC,
+PCmux,
+PCout,
+PCwrite,
+ReadData1,
+ReadData2,
+RegWrite,
+SLAC,
+SS,
+SSout,
+Shifter,
+ShifterMux,
+Shiftout,
+ULAa,
+ULAb,
+ULAcontrol,
+ULAout,
+UlaResult,
+Wr,
+WriteData,
+WriteReg,
+ZERO,
+concatout,
+ext16_32,
+ext16_32_left_shifted,
+ext25_32,
+hidiv,
+himult,
+imediato,
+lodiv,
+lomult,
+opcode,
+reset,
+rs,
+rt,
+wr
+);
+
+
+//declarar tudo
+reg [31:0]ALUOUT;
+reg [31:0]Aout;
+reg [31:0]Bout;
+clock;
+Div0;
+EG;
+EPC;
+reg [31:0]EPCout;
+GT;
+HILOWrite;
+HIout;
+IRwrite;
+LOout;
+LS;
+reg [31:0]LSout;
+LT;
+reg [31:0]LT32;
+Load;
+MDR;
+reg [31:0]MDRout;
+MDcontrol;
+MULTcontrol;
+reg [31:0]MUX10out;
+reg [31:0]MUX13out;
+MUX14;
+reg [31:0]MUX14out;
+reg [31:0]MUX1out;
+reg [31:0]MUX2out;
+reg [31:0]MUX3out;
+reg [31:0]MUX4out;
+reg [31:0]MUX5out;
+reg [31:0]MUX6out;
+reg [31:0]MUX7out;
+reg [31:0]MUX8out;
+MUX9out;
+MemoryAdress;
+MemoryData;
+reg [31:0]MemoryOut;
+Negativo;
+Overflow;
+PC;
+PCmux;
+reg [31:0]PCout;
+PCwrite;
+reg [31:0]ReadData1;
+reg [31:0]ReadData2;
+RegWrite;
+reg [31:0]SLAC;
+SS;
+reg [31:0]SSout;
+Shifter;
+ShifterMux;
+reg [31:0]Shiftout;
+ULAa;
+ULAb;
+ULAcontrol;
+reg [31:0]ULAout;
+reg [31:0]UlaResult;
+Wr;
+WriteData;
+WriteReg;
+ZERO;
+concatout;
+reg [31:0]ext16_32;
+reg [31:0]ext16_32_left_shifted;
+reg [31:0]ext25_32;
+reg [31:0]hidiv;
+reg [31:0]himult;
+imediato;
+reg [31:0]lodiv;
+reg [31:0]lomult;
+opcode;
+reset;
+reg [31:0]rs;
+reg [31:0]rt;
+wr;
 
 CONTROL control_(
 			opcode, 
@@ -26,15 +181,48 @@ CONTROL control_(
 			PCmux, 
 			EPC, 
 			MUX14, 
-			MDcontrol, 
+			MDcontrol,
+			MULTcontrol,//adicionar essa variavel no CONTROL.v 
 			Div0, 
 			HILOWrite, 
 			GT, 
 			LT, 
 			EG, 
-			N, 
+			Negativo, 
 			ZERO, 
-			O
+			Overflow
+);
+Registrador HI(//ok
+			clock		,
+			reset	,
+			HILOWrite	,
+			MUX7out ,
+			HIout	
+);
+Registrador LO(//ok
+			clock		,
+			reset	,
+			HILOWrite	,
+			MUX8out ,
+			LOout	
+);
+DIV div_(
+			clock,
+			reset,
+			Aout, 
+			Bout, 
+			hidiv, 
+			lodiv, 
+			Div0
+);
+Multi multi(
+			clock, 
+			reset, 
+			MULTcontrol, 
+			Aout, 
+			Bout, 
+			himult, 
+			lomult
 );
 CONCAT concat_(//ok
 			rs, 
@@ -53,15 +241,6 @@ Banco_reg Bancoreg_(//ok
 			ReadData1,	
 			ReadData2	
 );
-DIV div_(
-			clock,
-			reset,
-			A, 
-			B, 
-			hidiv, 
-			lodiv, 
-			Div0
-);
 Instr_Reg IR(//ok
 			clock,
 			reset,
@@ -79,19 +258,10 @@ LoadSize LS(//ok
 );
 Memoria mem(//ok
 			MUX1out	,
-			Clock	,
+			clock	,
 			Wr		,
 			MUX13out	,
 			MemoryOut	,
-);
-Multi multi(
-			a, 
-			b, 
-			A, 
-			B, 
-			himult, 
-			lomult,
-			i
 );
 MUX1 mux1(//ok
 			MemoryAdress, 
@@ -201,7 +371,7 @@ SignExtend16_32 signext16_32(//ok
 StoreSize SS(//ok
 			SS, 
 			MDRout, 
-			B, 
+			Bout, 
 			SSout
 );
 ula32 ula(//ok
@@ -261,20 +431,6 @@ Registrador MDR(//ok
 			MDR	,
 			MemoryOut ,
 			MDRout	
-);
-Registrador HI(//ok
-			clock		,
-			reset	,
-			HILOWrite	,
-			MUX7out ,
-			HIout	
-);
-Registrador LO(//ok
-			clock		,
-			reset	,
-			HILOWrite	,
-			MUX8out ,
-			LOout	
 );
 
 
