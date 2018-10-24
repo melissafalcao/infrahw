@@ -1,4 +1,4 @@
-module MULTI(a, b, hi, lo,i);
+module Multi(a, b, hi, lo,i);
 
 	input [31:0] a, b;  //fazer div e multi aqui jogando a saida no hi e lo
 	output [31:0] hi, lo; 
