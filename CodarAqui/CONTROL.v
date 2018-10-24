@@ -23,9 +23,28 @@ module CONTROL(opcode, imediato, clock, reset,
 		parameter estado4 = 3'd4;
 		parameter estado5 = 3'd5;
 		//opcodes abaixo
+		//MELISSA MEXEU
 		parameter ADD = 6'd32;//funct 0x20
 		parameter AND = 6'd36;//funct 0x24
+		parameter DIV = 6'd26;//funct 0x1a
+		parameter MULT = 6'd24;//funct 0x18
+		parameter JRRS = 6'd8;//funct 0x8
+		parameter MFHI = 6'd16;//funct 0x10
+		parameter MFLO = 6'd18;//funct 0x12
+		parameter SLL = 6'd0;//funct 0x0
+		parameter SLLV = 6'd4;//funct 0x4
+		parameter SLT = 6'd42;//funct 0x2a
+		parameter SRA = 6'd3;//funct 0x3
+		parameter SRAV = 6'd7;//funct 0x7
+		parameter SRL = 6'd2;//funct 0x2
 		parameter SUB = 6'd34;//funct 0x22
+		parameter BREAK = 6'd13;//funct 0xd
+		parameter RTE = 6'd19;//funct 0x13
+		//MELISSA TERMINOU DE MEXER AQUI
+
+		
+		
+		
 		//etc..
 
 
@@ -86,6 +105,51 @@ always @(posedge clock)begin
 			ALUOUT=1'd1;
 			estadoatual=estado4;
 		end
+	//MELISSA MEXEU (duvida: sempre tem que ter estado4 no fim? pq por exemplo o div faz tanto sub quando desloc e entrando em uma ele vaza???)
+		else if (funct==MULT && opcode==6'd0) begin
+			MDcontrol = 1'd0;
+			estadoatual=estado4;
+		end
+		else if (funct==DIV && opcode==6'd0) begin
+			MDcontrol = 1'd1;
+			HILOWrite = 1'd1;
+			estadoatual=estado4;
+		end
+		else if (funct==DIV && opcode==6'd0) begin
+			MDcontrol = 1'd1;
+			HILOWrite = 1'd1;
+			estadoatual=estado4;
+		end
+		else if (funct==MFHI&& opcode==6'd0) begin
+			WriteData = 3'd2;
+			WriteReg = 2'd0;
+			RegWrite = 1'd1;
+			estadoatual=estado4;
+		end
+		else if (funct==MFLO&& opcode==6'd0) begin
+			WriteData = 3'd3;
+			WriteReg = 2'd0;
+			RegWrite = 1'd1;
+			estadoatual=estado4;
+		end
+		else if (funct==JRRS&& opcode==6'd0) begin
+			ULAa = 2'd2;
+			ULAcontrol = 3'd0;
+			PCmux = 3'd5;
+			PCwrite = 1'd1;
+			estadoatual=estado4;
+		end
+		else if (funct==SLL&& opcode==6'd0) begin
+			//PULEI PQ LUCAS É LOUCO
+			ShifterMux = 2'd1
+			Shifter = 3'd
+			estadoatual=estado4;
+		end
+		/*output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,ALUOUT,EPC,MDcontrol, MUX14;
+		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter , MemoryAdress;
+		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData,LS,SS ; */
+
+	//MELISSA TERMINOU DE MEXER AQUI
 		/*else if condition begin
 			pass
 		end
