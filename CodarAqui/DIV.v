@@ -1,6 +1,6 @@
-module testdiv(clock, reset, comecodiv, A, B, hidiv, lodiv, Div0);
+module testdiv(clock, reset, DIVcontrol, A, B, hidiv, lodiv, Div0);
 
-	input wire clock, reset, comecodiv;
+	input wire clock, reset, DIVcontrol;
 	input[31:0] A, B;
 	output reg[31:0] hidiv, lodiv;
 	output reg Div0;
@@ -40,7 +40,7 @@ module testdiv(clock, reset, comecodiv, A, B, hidiv, lodiv, Div0);
             aux=32'd0;
             resto=32'd0;
         end
-        else if(comecodiv == 1'd1 && estado == espera)begin
+        else if(DIVcontrol == 1'd1 && estado == espera)begin
             estado = inicial;
         end
 
