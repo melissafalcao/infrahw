@@ -57,7 +57,7 @@ module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
 				else begin
 					multiplicador = multiplicador >>> 1;
 				end
-            contador = contador + 6'd1;
+            contador = contador + 1'd1;
             end
             else if(multiplicador[1]==1 && multiplicador[0]==1)begin
 				if(multiplicador[64]==1'd1) begin
@@ -67,7 +67,7 @@ module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
 				else begin
 					multiplicador = multiplicador >>> 1;
 				end
-            contador = contador + 6'd1;
+            contador = contador + 1'd1;
             end
             else if(multiplicador[1]==0 && multiplicador[0]==1)begin
             multiplicador = multiplicador + multiplicando;
@@ -78,7 +78,7 @@ module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
 				else begin
 					multiplicador = multiplicador >>> 1;
 				end
-            contador = contador + 6'd1;
+            contador = contador + 1'd1;
             end
             else if(multiplicador[1]==1 && multiplicador[0]==0) begin
             multiplicador = multiplicador - multiplicando;
@@ -89,7 +89,7 @@ module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
 				else begin
 					multiplicador = multiplicador >>> 1;
 				end
-            contador = contador + 6'd1;
+            contador = contador + 1'd1;
             end
         if (contador == 6'd33) begin
             estado = fim;
@@ -103,3 +103,4 @@ module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
         endcase
     end
 endmodule
+
