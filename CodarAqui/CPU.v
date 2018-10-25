@@ -21,6 +21,7 @@ MDR,
 MDRout,
 MDcontrol,
 MULTcontrol,
+DIVcontrol,
 MUX10out,
 MUX13out,
 MUX14,
@@ -39,7 +40,6 @@ MemoryData,
 MemoryOut,
 Negativo,
 Overflow,
-PC,
 PCmux,
 PCout,
 PCwrite,
@@ -57,7 +57,6 @@ ULAb,
 ULAcontrol,
 ULAout,
 UlaResult,
-Wr,
 WriteData,
 WriteReg,
 ZERO,
@@ -79,82 +78,88 @@ wr
 
 
 //declarar tudo
-reg [31:0]ALUOUT;
-reg [31:0]Aout;
-reg [31:0]Bout;
-clock;
-Div0;
-EG;
-EPC;
-reg [31:0]EPCout;
-GT;
-HILOWrite;
-HIout;
-IRwrite;
-LOout;
-LS;
-reg [31:0]LSout;
-LT;
-reg [31:0]LT32;
-Load;
-MDR;
-reg [31:0]MDRout;
-MDcontrol;
-MULTcontrol;
-reg [31:0]MUX10out;
-reg [31:0]MUX13out;
-MUX14;
-reg [31:0]MUX14out;
-reg [31:0]MUX1out;
-reg [31:0]MUX2out;
-reg [31:0]MUX3out;
-reg [31:0]MUX4out;
-reg [31:0]MUX5out;
-reg [31:0]MUX6out;
-reg [31:0]MUX7out;
-reg [31:0]MUX8out;
-MUX9out;
-MemoryAdress;
-MemoryData;
-reg [31:0]MemoryOut;
-Negativo;
-Overflow;
-PC;
-PCmux;
-reg [31:0]PCout;
-PCwrite;
-reg [31:0]ReadData1;
-reg [31:0]ReadData2;
-RegWrite;
-reg [31:0]SLAC;
-SS;
-reg [31:0]SSout;
-Shifter;
-ShifterMux;
-reg [31:0]Shiftout;
-ULAa;
-ULAb;
-ULAcontrol;
-reg [31:0]ULAout;
-reg [31:0]UlaResult;
-Wr;
-WriteData;
-WriteReg;
-ZERO;
-concatout;
-reg [31:0]ext16_32;
-reg [31:0]ext16_32_left_shifted;
-reg [31:0]ext25_32;
-reg [31:0]hidiv;
-reg [31:0]himult;
-imediato;
-reg [31:0]lodiv;
-reg [31:0]lomult;
-opcode;
-reset;
-reg [31:0]rs;
-reg [31:0]rt;
-wr;
+input wire reset;
+input wire clock;
+wire [31:0]ALUOUT;
+wire [31:0]Aout;
+wire [31:0]Bout;
+wire [31:0]EPCout;
+wire [31:0]HIout;
+wire [31:0]LOout;
+wire [31:0]LSout;
+wire [31:0]LT32;
+wire [31:0]MUX10out;
+wire [31:0]MUX13out;
+wire [31:0]MDRout;
+wire [31:0]MUX14out;
+wire [31:0]MUX1out;
+wire [31:0]MUX2out;
+wire [31:0]MUX3out;
+wire [31:0]MUX4out;
+wire [31:0]MUX5out;
+wire [31:0]MUX6out;
+wire [31:0]MUX7out;
+wire [31:0]MUX8out;
+wire [31:0]MemoryOut;
+wire [31:0]ReadData1;
+wire [31:0]PCout;
+wire [31:0]ReadData2;
+wire [31:0]SSout;
+wire [31:0]SLAC;
+wire [31:0]Shiftout;
+wire [31:0]ULAout;
+wire [31:0]UlaResult;
+wire [31:0]ext16_32;
+wire [31:0]ext16_32_left_shifted;
+wire [31:0]ext25_32;
+wire [31:0]hidiv;
+wire [31:0]himult;
+wire [31:0]lodiv;
+wire [31:0]lomult;
+wire [31:0]rs;
+wire [31:0]rt;
+
+wire [25:0]concatout;
+
+wire [15:0]imediato;
+
+wire [5:0]opcode;
+
+wire [4:0]MUX9out;
+
+wire [2:0]ULAb;
+wire [2:0]ULAcontrol;
+wire [2:0] WriteData;
+wire [2:0]MemoryAdress;
+wire [2:0]PCmux;
+wire [2:0]Shifter;
+
+wire [1:0]LS;
+wire [1:0]MemoryData;
+wire [1:0]SS;
+wire [1:0]ShifterMux;
+wire [1:0]ULAa;
+wire [1:0]WriteReg;
+
+wire Div0;
+wire EG;
+wire EPC;
+wire GT;
+wire HILOWrite;
+wire IRwrite;
+wire LT;
+wire Load;//para A e B
+wire MDR;
+wire MDcontrol;
+wire MULTcontrol;
+wire DIVcontrol;
+wire MUX14;
+wire Overflow;
+wire Negativo;
+wire PCwrite;
+wire RegWrite;
+wire ZERO;
+wire wr;
 
 CONTROL control_(
 			opcode, 
@@ -175,14 +180,16 @@ CONTROL control_(
 			WriteReg, 
 			RegWrite, 
 			ULAa, 
-			ULAb, 
+			ULAb,
+			Load,
 			ULAcontrol,
 			ALUOUT, 
 			PCmux, 
 			EPC, 
 			MUX14, 
 			MDcontrol,
-			MULTcontrol,//adicionar essa variavel no CONTROL.v 
+			MULTcontrol,
+			DIVcontrol, 
 			Div0, 
 			HILOWrite, 
 			GT, 
@@ -259,13 +266,13 @@ LoadSize LS(//ok
 Memoria mem(//ok
 			MUX1out	,
 			clock	,
-			Wr		,
+			wr		,
 			MUX13out	,
 			MemoryOut	,
 );
 MUX1 mux1(//ok
 			MemoryAdress, 
-			PC, 
+			PCout, 
 			UlaResult, 
 			ext16_32, 
 			ULAout, 
@@ -357,7 +364,7 @@ ShiftLeft2 SL2(//ok
 );
 ShiftLeft2Concat shiftconcat(//ok
 			concatout, 
-			PC, 
+			PCout, 
 			SLAC
 );
 SignExtend signextend(//ok

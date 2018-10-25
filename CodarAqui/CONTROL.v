@@ -1,16 +1,17 @@
+//PS: LOAD ADICIONADO ONTEM A NOITE POR ZEH POIS OS REG A E B AGR TEM LOAD E TEM Q AJEITAR OS ESTADOS Q ESCREVEM EM A E B A PARTIR DE AGORA
 module CONTROL(opcode, imediato, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
-				ShifterMux, Shifter, WriteReg, RegWrite, ULAa, ULAb, ULAcontrol,
-				ALUOUT, PCmux, EPC, MUX14, MDcontrol, Div0, HILOWrite, GT, LT, EG, N, ZERO, O
+				ShifterMux, Shifter, WriteReg, RegWrite, ULAa, ULAb,Load, ULAcontrol,
+				ALUOUT, PCmux, EPC, MUX14, MDcontrol,MULTcontrol,DIVcontrol, Div0, HILOWrite, GT, LT, EG, N, ZERO, O
 				);
 				
 		input [5:0] opcode;
 		input wire clock, reset,GT,LT,EG,N,ZERO,O,Div0;//tem umas saidas do bloco da ula aqui
 				    
 		
-	
-		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,ALUOUT,EPC,MDcontrol, MUX14;
+		output reg MULTcontrol,DIVcontrol;
+		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,Load,ALUOUT,EPC,MDcontrol, MUX14;
 		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter , MemoryAdress;
 		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData,LS,SS ;
 		

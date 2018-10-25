@@ -1,8 +1,8 @@
 module MUX14(MUX14, ulaResult, LSout, MUX14out);
 
-input [0:1] MUX14; 
+input MUX14; 
 input [31:0]  ulaResult, LSout; 
-output [31:0]  MUX14out;
+output reg[31:0]  MUX14out;
 
 always @(*)
 begin
