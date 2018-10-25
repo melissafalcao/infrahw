@@ -1,8 +1,8 @@
-module MULT(clock, reset, comecomult, a, b, hi, lo);
+module MULT(clock, reset, MULTcontrol, a, b, hi, lo);
 
     input wire reset;
     input wire clock;
-    input wire comecomult;
+    input wire MULTcontrol;
 	input [31:0] a, b;  //fazer multi aqui jogando a saida no hi e lo
 	output reg [31:0] hi, lo; 
 
@@ -37,7 +37,7 @@ module MULT(clock, reset, comecomult, a, b, hi, lo);
             hi = {32'd0};
             lo = {32'd0};
         end
-        else if(comecomult == 1'd1 && estado == espera)begin
+        else if(MULTcontrol == 1'd1 && estado == espera)begin
             estado = inicial;
         end
 
