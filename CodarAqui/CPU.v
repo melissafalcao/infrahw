@@ -148,7 +148,7 @@ DIV div_(
 			lodiv, 
 			Div0
 );
-Multi multi(
+MULT multi(
 			clock, 
 			reset, 
 			MULTcontrol, 
@@ -194,7 +194,7 @@ Memoria mem_(//ok
 			clock	,
 			wr		,
 			MUX13out	,
-			MemoryOut	,
+			MemoryOut
 );
 MUX1 mux1(//ok
 			MemoryAdress, 
@@ -246,7 +246,7 @@ MUX6 mux6(//ok
 			MemoryOut, 
 			MUX6out
 );
-MUX7eMUX8 mux78(//ajeitar himult e lomult após adicionar mult div caso necessario
+MUX7eMUX8 mux78(//ajeitar himult e lomult apÃ³s adicionar mult div caso necessario
 			MDcontrol, 
 			himult, 
 			hidiv, 
@@ -317,7 +317,7 @@ ula32 ula(//ok
 			ZERO			,
 			EG		,
 			GT		,
-			LT		,
+			LT		
 );
 UnitExtend UE(//ok
 			LT, 

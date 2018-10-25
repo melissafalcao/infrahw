@@ -1,4 +1,4 @@
-module testdiv(clock, reset, DIVcontrol, A, B, hidiv, lodiv, Div0);
+module DIV(clock, reset, DIVcontrol, A, B, hidiv, lodiv, Div0);
 
 	input wire clock, reset, DIVcontrol;
 	input[31:0] A, B;
