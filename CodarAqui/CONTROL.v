@@ -2,7 +2,7 @@
 module CONTROL(opcode, imediato, clock, reset,
 
 				PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, WriteData, IRwrite,
-				ShifterMux, Shifter, WriteReg, RegWrite, ULAa, ULAb,Load, ULAcontrol,
+				ShifterMux, Shifter, WriteReg,RegWrite, ULAa, ULAb,Load, ULAcontrol,
 				ALUOUT, PCmux, EPC, MUX14, MDcontrol,MULTcontrol,DIVcontrol, Div0, HILOWrite, GT, LT, EG, N, ZERO, O
 				);
 				
@@ -13,7 +13,7 @@ module CONTROL(opcode, imediato, clock, reset,
 		output reg MULTcontrol,DIVcontrol;
 		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,Load,ALUOUT,EPC,MDcontrol, MUX14;
 		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter , MemoryAdress;
-		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData,LS,SS ;
+		output reg [1:0] WriteReg,2LAa,ShifterMux , MemoryData,LS,SS ;
 		
 		//setar esses sinais de escrita em todo estado
 		/*
@@ -82,33 +82,45 @@ module CONTROL(opcode, imediato, clock, reset,
 
 		//opcodes acima
 		initial begin
-		  funct = imediato[5:0];
-		  estadoatual = estado0;
-		  PCwrite=1'd0;
+		  	funct = imediato[5:0];
+		  	estadoatual = estado0;
+		 	
 		end
 
 always @(posedge clock)begin
 	if(estadoatual==estado0)begin
-	  estadoatual=estado1;
+		PCwrite=0;//para nao escrever no PC
+		HILOWrite=0;//para nao escrever no HILO
+		wr=0;//para nao escrever na memoria
+		MDR=0;//para nao escrever no MDR
+		IRwrite=0;//para nao carrregar nova instrucao
+		RegWrite=0;//para nao escrever no banco de reg
+		Load=0;//para nao escrever em A e B
+		ALUOUT=0;//para nao escrver no aluout
+		EPC=0;//para nao escrever no EPC
+		MULTcontrol=0;//para nao ativar o mult
+		DIVcontrol=0;//para nao ativar o div
+	  	estadoatual=estado1;
 	end
 	else if (estadoatual==estado1) begin
 	//pc+4 e leitura de instrucao da memoria
-		PCwrite=1'd1;
-		HILOWrite=0;
+		Load=0;//nao escreve em A e B
 		MemoryAdress=3'd0;
-		wr=0;
-		IRwrite=1;
-		RegWrite=0;
-		MDR=0;
-		Load=1;//escreve em A e B
-		ULAa=2'd0;
-		ULAb=3'd2;
-		ULAcontrol=3'd1;
-		PCmux=3'd5;
 		ALUOUT=0;
 		EPC=0;
+		HILOWrite=0;
 		MULTcontrol=0;
 		DIVcontrol=0;
+		wr=0;
+		RegWrite=0;
+		MDR=0;
+
+		ULAcontrol=3'd1;
+		ULAa=2'd0;
+		ULAb=3'd2;
+		PCwrite=1'd1;
+		PCmux=3'd5;
+		IRwrite=1;
 		estadoatual=estado2;//muda estado
 	end//end estado 1
 	else if (estadoatual==estado2) begin
@@ -161,13 +173,13 @@ always @(posedge clock)begin
 		end
 		else if (funct==MFHI && opcode==6'd0) begin
 			WriteData = 3'd2;
-			WriteReg = 2'd0;
+			WriteReg 2 2'd0;
 			RegWrite = 1'd1;
 			estadoatual=estado4;
 		end
 		else if (funct==MFLO && opcode==6'd0) begin
 			WriteData = 3'd3;
-			WriteReg = 2'd0;
+			WriteReg 2 2'd0;
 			RegWrite = 1'd1;
 			estadoatual=estado4;
 		end
@@ -211,6 +223,17 @@ always @(posedge clock)begin
 			ULAb = 3'd1;
 			ULAcontrol = 3'd1;
 			ALUOUT=1;
+			PCwrite=0;//para nao escrever no PC
+			HILOWrite=0;//para nao escrever no HILO
+			wr=0;//para nao escrever na memoria
+			MDR=0;//para nao escrever no MDR
+			IRwrite=0;//para nao carrregar nova instrucao
+			RegWrite=0;//para nao escrever no banco de reg
+			Load=0;//para nao escrever em A e B
+			ALUOUT=0;//para nao escrver no aluout
+			EPC=0;//para nao escrever no EPC
+			MULTcontrol=0;//para nao ativar o mult
+			DIVcontrol=0;//para nao ativar o div
 			estadoatual=estado4;
 		end
 		else if (opcode==ADDIU) begin
@@ -292,13 +315,13 @@ always @(posedge clock)begin
 			  EPC = 1'd1;
 			  MemoryAdress=3'd5;
 			  PCmux=3'd6;
-			  estadoatual=estado1;//recomeï¿½a
+			  estadoatual=estado0;//recomeï¿½a
 			end
 			else begin//not overflow
-				WriteData=1'd0;
-				WriteReg=1'd0;
+				WriteData=3'd0;
+				WriteReg=2'd1;
 				RegWrite=1'd1;
-				estadoatual=estado1;
+				estadoatual=estado0;
 			end
 		end//add
 	///////comentario separador de opcodes	
@@ -310,24 +333,39 @@ always @(posedge clock)begin
 				EPC = 1'd1;
 				MemoryAdress=3'd5;
 				PCmux=3'd6;
-				estadoatual=estado1;//recomeï¿½a
+				estadoatual=estado0;//recomeï¿½a
 			end
 			else begin//not overflow
-				WriteData=1'd0;
+				WriteData=3'd0;
 				WriteReg=1'd0;
 				RegWrite=1'd1;
-				estadoatual=estado1;
+				estadoatual=estado0;
 			end
 		end//sub
 	///////comentario separador de opcodes
 		else if (funct==AND && opcode==6'd0) begin
-			WriteData=1'd0;
+			WriteData=3'd0;
 			WriteReg=1'd0;
 			RegWrite=1'd1;
 			estadoatual=estado1;
 		end//AND
 	///////comentario separador de opcodes
-
+		else if (opcode==ADDI) begin
+			WriteData=3'd0;
+			WriteReg=2'd1;
+			RegWrite=1;
+			PCwrite=0;//para nao escrever no PC
+			HILOWrite=0;//para nao escrever no HILO
+			wr=0;//para nao escrever na memoria
+			MDR=0;//para nao escrever no MDR
+			IRwrite=0;//para nao carrregar nova instrucao
+			Load=0;//para nao escrever em A e B
+			ALUOUT=0;//para nao escrver no aluout
+			EPC=0;//para nao escrever no EPC
+			MULTcontrol=0;//para nao ativar o mult
+			DIVcontrol=0;//para nao ativar o div
+			estadoatual=estado0;
+		end//AND
 
 
 
