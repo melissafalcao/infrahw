@@ -1,79 +1,5 @@
-module CPU (/*nomes de todos os fios do circuito aqui*/
-ALUOUT,
-Aout,
-Bout,
-clock,
-Div0,
-EG,
-EPC,
-EPCout,
-GT,
-HILOWrite,
-HIout,
-IRwrite,
-LOout,
-LS,
-LSout,
-LT,
-LT32,
-Load,
-MDR,
-MDRout,
-MDcontrol,
-MULTcontrol,
-DIVcontrol,
-MUX10out,
-MUX13out,
-MUX14,
-MUX14out,
-MUX1out,
-MUX2out,
-MUX3out,
-MUX4out,
-MUX5out,
-MUX6out,
-MUX7out,
-MUX8out,
-MUX9out,
-MemoryAdress,
-MemoryData,
-MemoryOut,
-Negativo,
-Overflow,
-PCmux,
-PCout,
-PCwrite,
-ReadData1,
-ReadData2,
-RegWrite,
-SLAC,
-SS,
-SSout,
-Shifter,
-ShifterMux,
-Shiftout,
-ULAa,
-ULAb,
-ULAcontrol,
-ULAout,
-UlaResult,
-WriteData,
-WriteReg,
-ZERO,
-concatout,
-ext16_32,
-ext16_32_left_shifted,
-ext25_32,
-hidiv,
-himult,
-imediato,
-lodiv,
-lomult,
-opcode,
-reset,
-rs,
-rt,
-wr
+module CPU (/*nomes de todos entradas e saidas da cpu aqui*/
+	clock, reset
 );
 
 
@@ -248,7 +174,7 @@ Banco_reg Bancoreg_(//ok
 			ReadData1,	
 			ReadData2	
 );
-Instr_Reg IR(//ok
+Instr_Reg IR_(//ok
 			clock,
 			reset,
 			IRwrite,
@@ -258,12 +184,12 @@ Instr_Reg IR(//ok
 			rt,
 			imediato	
 );
-LoadSize LS(//ok
+LoadSize LS_(//ok
 			LS, 
 			MDRout, 
 			LSout
 );
-Memoria mem(//ok
+Memoria mem_(//ok
 			MUX1out	,
 			clock	,
 			wr		,
@@ -375,7 +301,7 @@ SignExtend16_32 signext16_32(//ok
 			imediato,  
 			ext16_32
 );
-StoreSize SS(//ok
+StoreSize SS_(//ok
 			SS, 
 			MDRout, 
 			Bout, 
@@ -418,21 +344,21 @@ Registrador PC(//ok
 			MUX6out ,
 			PCout	
 );
-Registrador EPC(//ok
+Registrador EPC_(//ok
 			clock		,
 			reset	,
 			EPC	,
 			MUX14out ,
 			EPCout	
 );
-Registrador ALUout(//ok
+Registrador ALUout_(//ok
 			clock		,
 			reset	,
 			ALUOUT	,
 			UlaResult ,
-			EPCout	
+			ULAout	
 );
-Registrador MDR(//ok
+Registrador MDR_(//ok
 			clock		,
 			reset	,
 			MDR	,

@@ -2,7 +2,7 @@ module LoadSize (LS, MDRout, LSout);
 
 input [1:0] LS;
 input [31:0] MDRout;
-output [31:0] LSout;
+output reg[31:0] LSout;
 
 always @(*)
 begin

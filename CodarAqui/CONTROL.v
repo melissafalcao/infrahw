@@ -8,7 +8,7 @@ module CONTROL(opcode, imediato, clock, reset,
 				
 		input [5:0] opcode;
 		input wire clock, reset,GT,LT,EG,N,ZERO,O,Div0;//tem umas saidas do bloco da ula aqui
-				    
+		input [15:0] imediato;	    
 		
 		output reg MULTcontrol,DIVcontrol;
 		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,Load,ALUOUT,EPC,MDcontrol, MUX14;
@@ -142,8 +142,8 @@ always @(posedge clock)begin
 		end
 		else if (funct==SLL&& opcode==6'd0) begin
 			//PULEI PQ LUCAS É LOUCO
-			ShifterMux = 2'd1
-			Shifter = 3'd
+			ShifterMux = 2'd1;
+			//Shifter = 3'd//ver isso aqui depois
 			estadoatual=estado4;
 		end
 		/*output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,ALUOUT,EPC,MDcontrol, MUX14;

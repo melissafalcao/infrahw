@@ -2,7 +2,7 @@ module StoreSize(SS, MDRout, B, SSout);
 
 	input [1:0] SS; 
 	input [31:0] B, MDRout;
-	output [31:0] SSout;
+	output reg[31:0] SSout;
 
 always @(*)
 begin
