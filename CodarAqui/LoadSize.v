@@ -8,7 +8,7 @@ always @(*)
 begin
 	case (LS)
 		2'b00: begin//lb
-			LSout[31:0] <=  { 26'd0, MDRout[7:0] };
+			LSout[31:0] <=  { 24'd0, MDRout[7:0] };
 		end
 		2'b01: begin//lh
 			LSout[31:0] <=  { 16'd0, MDRout[15:0] };

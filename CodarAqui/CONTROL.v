@@ -13,7 +13,7 @@ module CONTROL(opcode, imediato, clock, reset,
 		output reg MULTcontrol,DIVcontrol;
 		output reg PCwrite,HILOWrite,wr, MDR, IRwrite,RegWrite,Load,ALUOUT,EPC,MDcontrol, MUX14;
 		output reg [2:0] PCmux,	ULAb ,	ULAcontrol	, WriteData ,Shifter , MemoryAdress;
-		output reg [1:0] WriteReg,2LAa,ShifterMux , MemoryData,LS,SS ;
+		output reg [1:0] WriteReg,ULAa,ShifterMux , MemoryData,LS,SS ;
 		
 		//setar esses sinais de escrita em todo estado
 		/*
@@ -173,13 +173,13 @@ always @(posedge clock)begin
 		end
 		else if (funct==MFHI && opcode==6'd0) begin
 			WriteData = 3'd2;
-			WriteReg 2 2'd0;
+			WriteReg = 2'd0;
 			RegWrite = 1'd1;
 			estadoatual=estado4;
 		end
 		else if (funct==MFLO && opcode==6'd0) begin
 			WriteData = 3'd3;
-			WriteReg 2 2'd0;
+			WriteReg = 2'd0;
 			RegWrite = 1'd1;
 			estadoatual=estado4;
 		end

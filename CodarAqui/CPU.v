@@ -1,11 +1,10 @@
 module CPU (/*nomes de todos entradas e saidas da cpu aqui*/
-	clock, reset
+	input wire clock, input wire reset
 );
 
 
 //declarar tudo
-input wire reset;
-input wire clock;
+
 wire [31:0]ALUOUT;
 wire [31:0]Aout;
 wire [31:0]Bout;
