@@ -124,8 +124,8 @@ always @(posedge clock)begin
 		estadoatual=estado2;//muda estado
 	end//end estado 1
 	else if (estadoatual==estado2) begin
-		//lï¿½ opcode e decodifica branch
-		PCwrite=0;//como ï¿½ reg, ele vai ficar salvo atï¿½ entrar em outro estado onde PCwrite=1
+		//lÃ¯Â¿Â½ opcode e decodifica branch
+		PCwrite=0;//como Ã¯Â¿Â½ reg, ele vai ficar salvo atÃ¯Â¿Â½ entrar em outro estado onde PCwrite=1
 		wr=0;//ler da memoria
 		ULAa=2'd0;//pc
 		ULAb=3'd4;//offset estendido
@@ -138,7 +138,7 @@ always @(posedge clock)begin
 		estadoatual=estado3;
 	end//en destado 2
 	else if (estadoatual==estado3) begin
-		//comeï¿½o de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
+		//comeÃ¯Â¿Â½o de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
 		if(funct==ADD && opcode==6'd0)begin
 		PCwrite=0;//para nao escrever no PC
 		HILOWrite=0;//para nao escrever no HILO
@@ -177,7 +177,7 @@ always @(posedge clock)begin
 		end
 		else if (funct==DIV && opcode==6'd0) begin
 	//MELISSA MEXEU (duvida: sempre tem que ter estado4 no fim? pq por exemplo o div faz tanto sub quando desloc e entrando em uma ele vaza???)
-	//ZÃ©: o div faz sub e desloc internamente, aqui a gt vai ter q fazer o controle esperar o div acabar antes de passar pro proximo estado
+	//ZÃƒÂ©: o div faz sub e desloc internamente, aqui a gt vai ter q fazer o controle esperar o div acabar antes de passar pro proximo estado
 		PCwrite=0;//para nao escrever no PC
 		wr=0;//para nao escrever na memoria
 		MDR=0;//para nao escrever no MDR
@@ -425,10 +425,10 @@ always @(posedge clock)begin
 
 			ULAa =2'd0;
 			ULAb= 3'd2;
-			ULAControl =3'd2;
-			PCMux =3'd1;
-			PCWrite =1'd1;
-			IRWrite =1'd0;
+			ULAcontrol =3'd2;
+			PCmux =3'd1;
+			PCwrite =1'd1;
+			IRwrite =1'd0;
 			RegWrite= 1'd0;
 			wr=1'd0;
 			estadoatual=estado4;
@@ -486,8 +486,8 @@ always @(posedge clock)begin
 
 			ULAb = 3'd1;
 			ULAa = 2'd2;
-			ULAControl 3'd1;
-			ALUOUT=1'd1;
+			ULAcontrol = 3'd1;
+			ALUOUT =1'd1;
 			estadoatual=estado4;
 		end
 		else if (opcode==BEQ) begin
@@ -590,7 +590,7 @@ always @(posedge clock)begin
 			ULAcontrol=3'd1;
 			IRwrite = 1'd0;
 			PCwrite = 1'd0;
-			MemoryAddress=3'd1;
+			MemoryAdress=3'd1;
 			MDR=1'd1;
 			
 			estadoatual=estado4;
@@ -613,7 +613,7 @@ always @(posedge clock)begin
 			ULAcontrol=3'd1;
 			IRwrite = 1'd0;
 			PCwrite = 1'd0;
-			MemoryAddress=3'd1;
+			MemoryAdress =3'd1;
 			MDR=1'd1;
 			estadoatual=estado4;
 		end
@@ -655,7 +655,7 @@ always @(posedge clock)begin
 			ULAcontrol=3'd1;
 			IRwrite = 1'd0;
 			PCwrite = 1'd0;
-			MemoryAddress=3'd1;
+			MemoryAdress=3'd1;
 			MDR=1'd1;
 			estadoatual=estado4;
 		end
@@ -794,7 +794,7 @@ always @(posedge clock)begin
 		DIVcontrol=0;
 
 			wr=1'd0;
-			MemoryAddress=3'd7;
+			MemoryAdress=3'd7;
 			MDR=1'd1;
 			estadoatual=estado4;
 		end
@@ -812,7 +812,7 @@ always @(posedge clock)begin
 		DIVcontrol=0;
 
 			wr=1'd0;
-			MemoryAddress=3'd7;
+			MemoryAdress=3'd7;
 			MDR=1'd1;
 			estadoatual=estado4;
 		end
@@ -827,7 +827,7 @@ always @(posedge clock)begin
 			  EPC = 1'd1;
 			  MemoryAdress=3'd5;
 			  PCmux=3'd6;
-			  estadoatual=estado0;//recomeï¿½a
+			  estadoatual=estado0;//recomeÃ¯Â¿Â½a
 			end
 			else begin//not overflow
 				WriteData=3'd0;
@@ -857,7 +857,7 @@ always @(posedge clock)begin
 				EPC = 1'd1;
 				MemoryAdress=3'd5;
 				PCmux=3'd6;
-				estadoatual=estado0;//recomeï¿½a
+				estadoatual=estado0;//recomeÃ¯Â¿Â½a
 			end
 			else begin//not overflow
 			
@@ -1158,7 +1158,7 @@ always @(posedge clock)begin
 		end
 
 		//falta beq bne
-		else if ((OPCODE==BEQ and EQ==1) or (OPCODE==BNE and EQ==0)) begin
+		else if ((opcode==BEQ && EG==1) || (opcode==BNE && EG==0)) begin
 		
 		
 		HILOWrite=0;
@@ -1178,7 +1178,7 @@ always @(posedge clock)begin
 			
 		end
 
-		else if ((OPCODE==BGT and GT==1) or (OPCODE==BLE and GT==0)) begin
+		else if ((opcode==BGT && GT==1) || (opcode==BLE && GT==0)) begin
 		
 		
 		HILOWrite=0;
@@ -1197,7 +1197,7 @@ always @(posedge clock)begin
 			estadoatual=estado5;
 		end
 
-		else if ((OPCODE==BEQ and EQ==1) or (OPCODE==BNE and EQ==0)) begin
+		else if ((opcode==BEQ && EG==1) || (opcode==BNE && EG==0)) begin
 		
 		
 		HILOWrite=0;
