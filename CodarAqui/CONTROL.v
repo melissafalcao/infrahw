@@ -367,16 +367,158 @@ always @(posedge clock)begin
 			estadoatual=estado0;
 		end//AND
 
+		else if ((opcode == ADD) || (opcode == AND) || (opcode == SUB)) begin
+			WriteData = 3'd0;
+			WriteReg = 2'd0;
+			RegWrite = 1'd1;
+		end
+		else if (opcode == SLL) begin
+			ShifterMux = 2'd1;
+			Shifter = 3'd2;
+		end
 
+		else if (opcode == SRA) begin
+			ShifterMux = 2'd1;
+			Shifter = 3'd4;
+		end
 
+		else if (opcode == SRL) begin
+			ShifterMux = 2'd1;
+			Shifter = 3'd3;
+		end
 
+		else if ((opcode == SW) ||  (opcode == SH || opcode == SB) begin // VERIFICAR SE EXISTEM
+			MemoryAdress = 3'd3;
+			wr= 1'd0;
+			MDR=1'd1;
+		end
 
+		else if (opcode == SLLV) begin
+			ShifterMux = 2'd0;
+			Shifter = 3'd2;
+		end
+
+		else if (opcode == SRAV) begin
+			ShifterMux = 2'd0;
+			Shifter = 3'd3;
+		end
+
+		else if (opcode == LW) begin
+		WriteData = 3'd1;
+		WriteReg = 2'd1;
+		RegWrite = 1'd1;
+		LS = 2'd2;
+		end
+
+		else if (opcode == LH) begin
+		WriteData = 3'd1;
+		WriteReg = 2'd1;
+		RegWrite = 1'd1;
+		LS = 2'd1;
+		end
+
+		else if (opcode == LB) begin
+		WriteData = 3'd1;
+		WriteReg = 2'd1;
+		RegWrite = 1'd1;
+		LS = 2'd0;
+		end
+
+		else if (opcode == JAL) begin
+			PCWrite = 1'd1;
+			PCMux = 3'd2;
+			WriteReg 2'd2;
+			RegWrite = 1'd1;
+			WriteData = 3'd0;
+		end
+		
+		else if ((opcode == ADDI) || (opcode == ADDU)) begin
+			WriteReg = 2'd1;
+			WriteData = 3'd0;
+			RegWrite = 1'd1;
+		end
+
+		//falta beq bne
+		else if (opcode == LUI) begin
+		
+			Shifter = 3'd2;
+			WriteData =3'd4;
+			RegWrite =1'd1;
+			Write Reg=2'd1;
+		end
+
+		else if (opcode == INC) begin
+		
+			ULAa=2'd1;
+			ULAb=3'd3;	
+			ULAControl=3'd1;
+			wr=1'd1;
+			MemoryData=2'd2;
+
+		end
+
+		else if (opcode == DEC) begin
+		
+			ULAa=2'd1;
+			ULAb=3'd3;	
+			ULAControl=3'd2;
+			wr=1'd1;
+			MemoryData=2'd2;
+
+		end
+
+		
 
 	end//end estado4
+
 	else if (estadoatual==estado5) begin
 		//um if pra cada opcode (continuacao do estado anterior)
 		//pass;
+
+		else if ((opcode == SLL) || (opcode == SRA) || (opcode == SRL)) begin
+			WriteData = 3'd4;
+			WriteReg = 2'd0;
+			RegWrite = 1'd1;
+		end
+
+		else if (opcode == SW) begin 
+			SS = 2'd2;
+			MemoryAdress = 3'd3;
+			MemoryData = 2'd0;
+			wr = 1'd1;
+		end
+
+		else if (opcode == SH) begin 
+			SS = 2'd1;
+			MemoryAdress = 3'd3;
+			MemoryData = 2'd0;
+			wr = 1'd1;
+		end
+
+		else if (opcode == SB) begin 
+			SS = 2'd0;
+			MemoryAdress = 3'd3;
+			MemoryData = 2'd0;
+			wr = 1'd1;
+		end
+
+		else if ((opcode == SLLV) || (opcode == SRAV)) begin
+			WriteData = 3'd4;                                                                                                                                                                                       
+			WriteReg = 2'd0;
+			RegWrite = 1'd1;
+		end
+
+
+
+
+
 	end//end estado5
+
+		/*PCwrite, MemoryAdress, MemoryData, wr, SS, MDR, LS, 
+		WriteData, IRwrite, ShifterMux, Shifter, WriteReg,RegWrite,
+		 ULAa, ULAb,Load, ULAcontrol, ALUOUT, PCmux, EPC, MUX14, 
+		 MDcontrol,MULTcontrol,DIVcontrol, Div0, HILOWrite, GT, LT, 
+		 EG, N, ZERO, O */
 
 end//end always
 
