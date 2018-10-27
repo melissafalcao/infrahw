@@ -137,580 +137,581 @@ always @(posedge clock)begin
 		end//end estado 2
 		estado3: begin
 		//comeÃ¯Â¿Â½o de instrucoes, um if (ou else if)pra cada opcode, um else no final pra opcode inexistente
-			if(funct==ADD && opcode==6'd0)begin
-				PCwrite=0;//para nao escrever no PC
-				HILOWrite=0;//para nao escrever no HILO
-				wr=0;//para nao escrever na memoria
-				MDR=0;//para nao escrever no MDR
-				IRwrite=0;//para nao carrregar nova instrucao
-				RegWrite=0;//para nao escrever no banco de reg
-				Load=0;//para nao escrever em A e B
-				EPC=0;//para nao escrever no EPC
-				MULTcontrol=0;//para nao ativar o mult
-				DIVcontrol=0;//para nao ativar o div
-				ULAa=2'd2;
-				ULAb=3'd0;
-				ULAcontrol=3'd1;
-				ALUOUT=1'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==AND && opcode==6'd0) begin
-				PCwrite=0;//para nao escrever no PC
-				HILOWrite=0;//para nao escrever no HILO
-				wr=0;//para nao escrever na memoria
-				MDR=0;//para nao escrever no MDR
-				IRwrite=0;//para nao carrregar nova instrucao
-				RegWrite=0;//para nao escrever no banco de reg
-				Load=0;//para nao escrever em A e B
-				EPC=0;//para nao escrever no EPC
-				MULTcontrol=0;//para nao ativar o mult
-				DIVcontrol=0;//para nao ativar o div
-				ULAa=2'd2;
-				ULAb=3'd0;
-				ULAcontrol=3'd3;
-				ALUOUT=1'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==DIV && opcode==6'd0) begin
-			//MELISSA MEXEU (duvida: sempre tem que ter estado4 no fim? pq por exemplo o div faz tanto sub quando desloc e entrando em uma ele vaza???)
-			//ZÃƒÂ©: o div faz sub e desloc internamente, aqui a gt vai ter q fazer o controle esperar o div acabar antes de passar pro proximo estado
-				PCwrite=0;//para nao escrever no PC
-				wr=0;//para nao escrever na memoria
-				MDR=0;//para nao escrever no MDR
-				IRwrite=0;//para nao carrregar nova instrucao
-				RegWrite=0;//para nao escrever no banco de reg
-				Load=0;//para nao escrever em A e B
-				ALUOUT=0;//para nao escrver no aluout
-				EPC=0;//para nao escrever no EPC
-				MULTcontrol=0;//para nao ativar o mult
-				DIVcontrol=0;//para nao ativar o div
-				MDcontrol = 1'd1;
-				HILOWrite = 1'd1;
-				estadoatual=estado0;
-			end
-			else if (funct==MULT && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				MDcontrol = 1'd0;
-				estadoatual=estado0;
-			end
-			else if (funct==JR&& opcode==6'd0) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAcontrol = 3'd0;
-				PCmux = 3'd5;
-				PCwrite = 1'd1;
-				estadoatual=estado0;
-			end
-			else if (funct==MFHI && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				WriteData = 3'd2;
-				WriteReg = 2'd0;
-				RegWrite = 1'd1;
-				estadoatual=estado0;
-			end
-			else if (funct==MFLO && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				WriteData = 3'd3;
-				WriteReg = 2'd0;
-				RegWrite = 1'd1;
-				estadoatual=estado0;
-			end
-			else if (funct==SLL && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				Shifter = 3'd1;
-				ShifterMux = 2'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==SLLV && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ShifterMux = 2'd0;
-				Shifter = 3'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==SRAV && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ShifterMux = 2'd0;
-				Shifter = 3'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==SLT && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd0;
-				ULAcontrol = 3'd7;
-				WriteData = 3'd5;
-				WriteReg = 2'd0;
-				RegWrite = 1'd1; 
-				estadoatual=estado0;
-			end
-			else if (funct==SRA && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				Shifter = 3'd1;
-				ShifterMux = 2'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==SRL && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				Shifter = 3'd1;
-				ShifterMux = 2'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==SUB && opcode==6'd0) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa=2'd2;
-				ULAb=3'd0;
-				ULAcontrol=3'd2;
-				ALUOUT=1'd1;
-				estadoatual=estado4;
-			end
-			else if (funct==BREAK && opcode==6'd0) begin
-				HILOWrite=0;
-				MDR=0;
-				IRwrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa =2'd0;
-				ULAb= 3'd2;
-				ULAcontrol =3'd2;
-				PCmux =3'd1;
-				PCwrite =1'd1;
-				IRwrite =1'd0;
-				RegWrite= 1'd0;
-				wr=1'd0;
-				estadoatual=estado0;
-			end
-			else if (funct==RTE && opcode==6'd0) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				PCwrite = 1'd1;
-				PCmux = 3'd3;
-				estadoatual=estado0;
-			end
-			else if (opcode==ADDI) begin
-				ULAa = 2'd2;
-				ULAb = 3'd1;
-				ULAcontrol = 3'd1;
-				ALUOUT=1;
-				PCwrite=0;//para nao escrever no PC
-				HILOWrite=0;//para nao escrever no HILO
-				wr=0;//para nao escrever na memoria
-				MDR=0;//para nao escrever no MDR
-				IRwrite=0;//para nao carrregar nova instrucao
-				RegWrite=0;//para nao escrever no banco de reg
-				Load=0;//para nao escrever em A e B
-				ALUOUT=0;//para nao escrver no aluout
-				EPC=0;//para nao escrever no EPC
-				MULTcontrol=0;//para nao ativar o mult
-				DIVcontrol=0;//para nao ativar o div
-				estadoatual=estado4;
-			end
-			else if (opcode==ADDIU) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAb = 3'd1;
-				ULAa = 2'd2;
-				ULAcontrol = 3'd1;
-				ALUOUT =1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==BEQ) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd0;
-				ULAcontrol = 3'd7;
-				estadoatual=estado4;
-			end
-			else if (opcode==BNE) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd0;
-				ULAcontrol = 3'd7;
-				estadoatual=estado4;
-			end
-			else if (opcode==BLE) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd0;
-				ULAcontrol = 3'd7;
-				estadoatual=estado4;
-			end
-			else if (opcode==BGT) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd0;
-				ULAcontrol = 3'd7;
-				estadoatual=estado4;
-			end
-			else if (opcode==LB) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAb = 3'd1;
-				ULAa = 2'd2;
-				ULAcontrol=3'd1;
-				IRwrite = 1'd0;
-				PCwrite = 1'd0;
-				MemoryAdress=3'd1;
-				MDR=1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==LH) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAb = 3'd1;
-				ULAa = 2'd2;
-				ULAcontrol=3'd1;
-				IRwrite = 1'd0;
-				PCwrite = 1'd0;
-				MemoryAdress =3'd1;
-				MDR=1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==LUI) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ShifterMux = 2'd2;
-				Shifter = 3'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==LW) begin
-				HILOWrite=0;
-				wr=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAb = 3'd1;
-				ULAa = 2'd2;
-				ULAcontrol=3'd1;
-				IRwrite = 1'd0;
-				PCwrite = 1'd0;
-				MemoryAdress=3'd1;
-				MDR=1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==SB) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd1;
-				ULAcontrol=3'd1;
-				PCwrite = 1'd0;
-				ALUOUT = 1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==SH) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd1;
-				ULAcontrol=3'd1;
-				PCwrite = 1'd0;
-				ALUOUT = 1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==SLTI) begin
-				PCwrite=0;
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa=2'd2;
-				ULAb = 3'd1;
-				ULAcontrol = 3'd7;
-				WriteData = 3'd5;
-				WriteReg = 2'd1;
-				RegWrite = 1'd1;
-				estadoatual=estado0;
-			end
-			else if (opcode==SW) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				ULAa = 2'd2;
-				ULAb = 3'd1;
-				ULAcontrol=3'd1;
-				PCwrite = 1'd0;
-				ALUOUT = 1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==J) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				PCwrite = 1'd1;
-				PCmux = 3'd2;
-				estadoatual=estado0;
-			end
-			else if (opcode==JAL) begin
-				HILOWrite=0;
-				wr=0;
-				MDR=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				PCwrite = 1'd0;
-				ULAa = 2'd2;
-				ULAcontrol = 3'd0;
-				ALUOUT=1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==INC) begin
-				PCwrite=0;
-				HILOWrite=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				wr=1'd0;
-				MemoryAdress=3'd7;
-				MDR=1'd1;
-				estadoatual=estado4;
-			end
-			else if (opcode==DEC) begin
-				PCwrite=0;
-				HILOWrite=0;
-				IRwrite=0;
-				RegWrite=0;
-				Load=0;
-				ALUOUT=0;
-				EPC=0;
-				MULTcontrol=0;
-				DIVcontrol=0;
-				wr=1'd0;
-				MemoryAdress=3'd7;
-				MDR=1'd1;
-				estadoatual=estado4;
-			end
-		end//end estado 3
+			case(opcode)
+				6'd0: begin
+					case(funct)
+						ADD: begin
+							PCwrite=0;//para nao escrever no PC
+							HILOWrite=0;//para nao escrever no HILO
+							wr=0;//para nao escrever na memoria
+							MDR=0;//para nao escrever no MDR
+							IRwrite=0;//para nao carrregar nova instrucao
+							RegWrite=0;//para nao escrever no banco de reg
+							Load=0;//para nao escrever em A e B
+							EPC=0;//para nao escrever no EPC
+							MULTcontrol=0;//para nao ativar o mult
+							DIVcontrol=0;//para nao ativar o div
+							ULAa=2'd2;
+							ULAb=3'd0;
+							ULAcontrol=3'd1;
+							ALUOUT=1'd1;
+							estadoatual=estado4;
+						end
+						AND: begin
+							PCwrite=0;//para nao escrever no PC
+							HILOWrite=0;//para nao escrever no HILO
+							wr=0;//para nao escrever na memoria
+							MDR=0;//para nao escrever no MDR
+							IRwrite=0;//para nao carrregar nova instrucao
+							RegWrite=0;//para nao escrever no banco de reg
+							Load=0;//para nao escrever em A e B
+							EPC=0;//para nao escrever no EPC
+							MULTcontrol=0;//para nao ativar o mult
+							DIVcontrol=0;//para nao ativar o div
+							ULAa=2'd2;
+							ULAb=3'd0;
+							ULAcontrol=3'd3;
+							ALUOUT=1'd1;
+							estadoatual=estado4;
+						end
+						DIV: begin
+							PCwrite=0;//para nao escrever no PC
+							wr=0;//para nao escrever na memoria
+							MDR=0;//para nao escrever no MDR
+							IRwrite=0;//para nao carrregar nova instrucao
+							RegWrite=0;//para nao escrever no banco de reg
+							Load=0;//para nao escrever em A e B
+							ALUOUT=0;//para nao escrver no aluout
+							EPC=0;//para nao escrever no EPC
+							MULTcontrol=0;//para nao ativar o mult
+							DIVcontrol=0;//para nao ativar o div
+							MDcontrol = 1'd1;
+							HILOWrite = 1'd1;
+							estadoatual=estado0;
+						end
+						MULT: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							MDcontrol = 1'd0;
+							estadoatual=estado0;
+						end
+						JR: begin
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ULAa = 2'd2;
+							ULAcontrol = 3'd0;
+							PCmux = 3'd5;
+							PCwrite = 1'd1;
+							estadoatual=estado0;
+						end
+						MFHI: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							WriteData = 3'd2;
+							WriteReg = 2'd0;
+							RegWrite = 1'd1;
+							estadoatual=estado0;
+						end
+						MFLO: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							WriteData = 3'd3;
+							WriteReg = 2'd0;
+							RegWrite = 1'd1;
+							estadoatual=estado0;
+						end
+						SLL: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							Shifter = 3'd1;
+							ShifterMux = 2'd1;
+							estadoatual=estado4;
+						end
+						SLLV: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ShifterMux = 2'd0;
+							Shifter = 3'd1;
+							estadoatual=estado4;
+						end
+						SRAV: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ShifterMux = 2'd0;
+							Shifter = 3'd1;
+							estadoatual=estado4;
+						end
+						SLT: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ULAa = 2'd2;
+							ULAb = 3'd0;
+							ULAcontrol = 3'd7;
+							WriteData = 3'd5;
+							WriteReg = 2'd0;
+							RegWrite = 1'd1; 
+							estadoatual=estado0;
+						end
+						SRA: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							Shifter = 3'd1;
+							ShifterMux = 2'd1;
+							estadoatual=estado4;
+						end
+						SRL: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							Shifter = 3'd1;
+							ShifterMux = 2'd1;
+							estadoatual=estado4;
+						end
+						SUB: begin
+							PCwrite=0;
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ULAa=2'd2;
+							ULAb=3'd0;
+							ULAcontrol=3'd2;
+							ALUOUT=1'd1;
+							estadoatual=estado4;
+						end
+						BREAK: begin
+							HILOWrite=0;
+							MDR=0;
+							IRwrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							ULAa =2'd0;
+							ULAb= 3'd2;
+							ULAcontrol =3'd2;
+							PCmux =3'd1;
+							PCwrite =1'd1;
+							IRwrite =1'd0;
+							RegWrite= 1'd0;
+							wr=1'd0;
+							estadoatual=estado0;
+						end
+						RTE: begin
+							HILOWrite=0;
+							wr=0;
+							MDR=0;
+							IRwrite=0;
+							RegWrite=0;
+							Load=0;
+							ALUOUT=0;
+							EPC=0;
+							MULTcontrol=0;
+							DIVcontrol=0;
+							PCwrite = 1'd1;
+							PCmux = 3'd3;
+							estadoatual=estado0;
+						end
+					endcase //end funct
+				ADDI: begin
+					ULAa = 2'd2;
+					ULAb = 3'd1;
+					ULAcontrol = 3'd1;
+					ALUOUT=1;
+					PCwrite=0;//para nao escrever no PC
+					HILOWrite=0;//para nao escrever no HILO
+					wr=0;//para nao escrever na memoria
+					MDR=0;//para nao escrever no MDR
+					IRwrite=0;//para nao carrregar nova instrucao
+					RegWrite=0;//para nao escrever no banco de reg
+					Load=0;//para nao escrever em A e B
+					ALUOUT=0;//para nao escrver no aluout
+					EPC=0;//para nao escrever no EPC
+					MULTcontrol=0;//para nao ativar o mult
+					DIVcontrol=0;//para nao ativar o div
+					estadoatual=estado4;
+				end
+				ADDIU: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAb = 3'd1;
+					ULAa = 2'd2;
+					ULAcontrol = 3'd1;
+					ALUOUT =1'd1;
+					estadoatual=estado4;
+				end
+				BEQ: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd0;
+					ULAcontrol = 3'd7;
+					estadoatual=estado4;
+				end
+				BNE: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd0;
+					ULAcontrol = 3'd7;
+					estadoatual=estado4;
+				end
+				BLE: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd0;
+					ULAcontrol = 3'd7;
+					estadoatual=estado4;
+				end
+				BGT: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd0;
+					ULAcontrol = 3'd7;
+					estadoatual=estado4;
+				end
+				LB: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAb = 3'd1;
+					ULAa = 2'd2;
+					ULAcontrol=3'd1;
+					IRwrite = 1'd0;
+					PCwrite = 1'd0;
+					MemoryAdress=3'd1;
+					MDR=1'd1;
+					estadoatual=estado4;
+				end
+				LH: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAb = 3'd1;
+					ULAa = 2'd2;
+					ULAcontrol=3'd1;
+					IRwrite = 1'd0;
+					PCwrite = 1'd0;
+					MemoryAdress =3'd1;
+					MDR=1'd1;
+					estadoatual=estado4;
+				end
+				LUI: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ShifterMux = 2'd2;
+					Shifter = 3'd1;
+					estadoatual=estado4;
+				end
+				LW: begin
+					HILOWrite=0;
+					wr=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAb = 3'd1;
+					ULAa = 2'd2;
+					ULAcontrol=3'd1;
+					IRwrite = 1'd0;
+					PCwrite = 1'd0;
+					MemoryAdress=3'd1;
+					MDR=1'd1;
+					estadoatual=estado4;
+				end
+				SB: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd1;
+					ULAcontrol=3'd1;
+					PCwrite = 1'd0;
+					ALUOUT = 1'd1;
+					estadoatual=estado4;
+				end
+				SH: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd1;
+					ULAcontrol=3'd1;
+					PCwrite = 1'd0;
+					ALUOUT = 1'd1;
+					estadoatual=estado4;
+				end
+				SLTI: begin
+					PCwrite=0;
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa=2'd2;
+					ULAb = 3'd1;
+					ULAcontrol = 3'd7;
+					WriteData = 3'd5;
+					WriteReg = 2'd1;
+					RegWrite = 1'd1;
+					estadoatual=estado0;
+				end
+				SW: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					ULAa = 2'd2;
+					ULAb = 3'd1;
+					ULAcontrol=3'd1;
+					PCwrite = 1'd0;
+					ALUOUT = 1'd1;
+					estadoatual=estado4;
+				end
+				J: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					PCwrite = 1'd1;
+					PCmux = 3'd2;
+					estadoatual=estado0;
+				end
+				JAL: begin
+					HILOWrite=0;
+					wr=0;
+					MDR=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					PCwrite = 1'd0;
+					ULAa = 2'd2;
+					ULAcontrol = 3'd0;
+					ALUOUT=1'd1;
+					estadoatual=estado4;
+				end
+				INC: begin
+					PCwrite=0;
+					HILOWrite=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					wr=1'd0;
+					MemoryAdress=3'd7;
+					MDR=1'd1;
+					estadoatual=estado4;
+				end
+				DEC: begin
+					PCwrite=0;
+					HILOWrite=0;
+					IRwrite=0;
+					RegWrite=0;
+					Load=0;
+					ALUOUT=0;
+					EPC=0;
+					MULTcontrol=0;
+					DIVcontrol=0;
+					wr=1'd0;
+					MemoryAdress=3'd7;
+					MDR=1'd1;
+					estadoatual=estado4;
+				end
+			endcase //end estado 3
 		estado4: begin
-		//um if pra cada opcode (continuacao do estado anterior)
 			if(funct==ADD && opcode==6'd0)begin
 				if(O==1) begin//overflow
 					ULAa = 2'd0;
