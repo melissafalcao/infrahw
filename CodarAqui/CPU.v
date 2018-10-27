@@ -54,7 +54,7 @@ wire [4:0]MUX9out;
 
 wire [2:0]ULAb;
 wire [2:0]ULAcontrol;
-wire [2:0] WriteData;
+wire [2:0]WriteData;
 wire [2:0]MemoryAdress;
 wire [2:0]PCmux;
 wire [2:0]Shifter;
@@ -125,17 +125,17 @@ CONTROL control_(
 			Overflow
 );
 Registrador HI(//ok
-			clock		,
-			reset	,
-			HILOWrite	,
-			MUX7out ,
+			clock,
+			reset,
+			HILOWrite,
+			MUX7out,
 			HIout	
 );
 Registrador LO(//ok
-			clock		,
-			reset	,
-			HILOWrite	,
-			MUX8out ,
+			clock,
+			reset,
+			HILOWrite,
+			MUX8out,
 			LOout	
 );
 DIV div_(
@@ -189,10 +189,10 @@ LoadSize LS_(//ok
 			LSout
 );
 Memoria mem_(//ok
-			MUX1out	,
-			clock	,
-			wr		,
-			MUX13out	,
+			MUX1out,
+			clock,
+			wr,
+			MUX13out,
 			MemoryOut
 );
 MUX1 mux1(//ok
@@ -276,11 +276,11 @@ MUX14 mux14(//ok
 			MUX14out
 );
 RegDesloc desloc(//ok
-			clock		,
-			reset	,
-			Shifter 	,
-			MUX9out	,
-			MUX10out ,
+			clock,
+			reset,
+			Shifter,
+			MUX9out,
+			MUX10out,
 			Shiftout	
 );
 ShiftLeft2 SL2(//ok
@@ -307,15 +307,15 @@ StoreSize SS_(//ok
 			SSout
 );
 ula32 ula(//ok
-			MUX4out ,
-			MUX5out ,
+			MUX4out,
+			MUX5out,
 			ULAcontrol,
-			UlaResult ,
-			Overflow 	,
-			Negativo	,
-			ZERO			,
-			EG		,
-			GT		,
+			UlaResult,
+			Overflow,
+			Negativo,
+			ZERO,
+			EG,
+			GT,
 			LT		
 );
 UnitExtend UE(//ok
@@ -323,48 +323,46 @@ UnitExtend UE(//ok
 			LT32
 );
 Registrador A(//ok
-			clock		,
-			reset	,
-			Load	,
-			ReadData1 ,
+			clock,
+			reset,
+			Load,
+			ReadData1,
 			Aout	
 );
 Registrador B(//ok
-			clock		,
-			reset	,
-			Load	,
-			ReadData2 ,
+			clock,
+			reset,
+			Load,
+			ReadData2,
 			Bout	
 );
 Registrador PC(//ok
-			clock		,
-			reset	,
-			PCwrite	,
-			MUX6out ,
+			clock,
+			reset,
+			PCwrite,
+			MUX6out,
 			PCout	
 );
 Registrador EPC_(//ok
-			clock		,
-			reset	,
-			EPC	,
-			MUX14out ,
+			clock,
+			reset,
+			EPC,
+			MUX14out,
 			EPCout	
 );
 Registrador ALUout_(//ok
-			clock		,
-			reset	,
-			ALUOUT	,
-			UlaResult ,
+			clock,
+			reset,
+			ALUOUT,
+			UlaResult,
 			ULAout	
 );
 Registrador MDR_(//ok
-			clock		,
-			reset	,
-			MDR	,
-			MemoryOut ,
+			clock,
+			reset,
+			MDR,
+			MemoryOut,
 			MDRout	
 );
-
-
 
 endmodule
