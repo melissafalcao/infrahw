@@ -152,6 +152,7 @@ always @(posedge clock)begin
 				ULAb=3'd0;
 				ULAcontrol=3'd1;
 				ALUOUT=1'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==AND && opcode==6'd0) begin
 				PCwrite=0;//para nao escrever no PC
@@ -168,6 +169,7 @@ always @(posedge clock)begin
 				ULAb=3'd0;
 				ULAcontrol=3'd3;
 				ALUOUT=1'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==DIV && opcode==6'd0) begin
 			//MELISSA MEXEU (duvida: sempre tem que ter estado4 no fim? pq por exemplo o div faz tanto sub quando desloc e entrando em uma ele vaza???)
@@ -184,6 +186,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;//para nao ativar o div
 				MDcontrol = 1'd1;
 				HILOWrite = 1'd1;
+				estadoatual=estado0;
 			end
 			else if (funct==MULT && opcode==6'd0) begin
 				PCwrite=0;
@@ -198,6 +201,7 @@ always @(posedge clock)begin
 				MULTcontrol=0;
 				DIVcontrol=0;
 				MDcontrol = 1'd0;
+				estadoatual=estado0;
 			end
 			else if (funct==JR&& opcode==6'd0) begin
 				HILOWrite=0;
@@ -214,6 +218,7 @@ always @(posedge clock)begin
 				ULAcontrol = 3'd0;
 				PCmux = 3'd5;
 				PCwrite = 1'd1;
+				estadoatual=estado0;
 			end
 			else if (funct==MFHI && opcode==6'd0) begin
 				PCwrite=0;
@@ -229,6 +234,7 @@ always @(posedge clock)begin
 				WriteData = 3'd2;
 				WriteReg = 2'd0;
 				RegWrite = 1'd1;
+				estadoatual=estado0;
 			end
 			else if (funct==MFLO && opcode==6'd0) begin
 				PCwrite=0;
@@ -244,6 +250,7 @@ always @(posedge clock)begin
 				WriteData = 3'd3;
 				WriteReg = 2'd0;
 				RegWrite = 1'd1;
+				estadoatual=estado0;
 			end
 			else if (funct==SLL && opcode==6'd0) begin
 				PCwrite=0;
@@ -259,6 +266,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				Shifter = 3'd1;
 				ShifterMux = 2'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==SLLV && opcode==6'd0) begin
 				PCwrite=0;
@@ -274,6 +282,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				ShifterMux = 2'd0;
 				Shifter = 3'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==SRAV && opcode==6'd0) begin
 				PCwrite=0;
@@ -289,6 +298,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				ShifterMux = 2'd0;
 				Shifter = 3'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==SLT && opcode==6'd0) begin
 				PCwrite=0;
@@ -307,6 +317,7 @@ always @(posedge clock)begin
 				WriteData = 3'd5;
 				WriteReg = 2'd0;
 				RegWrite = 1'd1; 
+				estadoatual=estado0;
 			end
 			else if (funct==SRA && opcode==6'd0) begin
 				PCwrite=0;
@@ -322,6 +333,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				Shifter = 3'd1;
 				ShifterMux = 2'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==SRL && opcode==6'd0) begin
 				PCwrite=0;
@@ -337,6 +349,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				Shifter = 3'd1;
 				ShifterMux = 2'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==SUB && opcode==6'd0) begin
 				PCwrite=0;
@@ -353,6 +366,7 @@ always @(posedge clock)begin
 				ULAb=3'd0;
 				ULAcontrol=3'd2;
 				ALUOUT=1'd1;
+				estadoatual=estado4;
 			end
 			else if (funct==BREAK && opcode==6'd0) begin
 				HILOWrite=0;
@@ -371,6 +385,7 @@ always @(posedge clock)begin
 				IRwrite =1'd0;
 				RegWrite= 1'd0;
 				wr=1'd0;
+				estadoatual=estado0;
 			end
 			else if (funct==RTE && opcode==6'd0) begin
 				HILOWrite=0;
@@ -385,6 +400,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				PCwrite = 1'd1;
 				PCmux = 3'd3;
+				estadoatual=estado0;
 			end
 			else if (opcode==ADDI) begin
 				ULAa = 2'd2;
@@ -402,6 +418,7 @@ always @(posedge clock)begin
 				EPC=0;//para nao escrever no EPC
 				MULTcontrol=0;//para nao ativar o mult
 				DIVcontrol=0;//para nao ativar o div
+				estadoatual=estado4;
 			end
 			else if (opcode==ADDIU) begin
 				PCwrite=0;
@@ -418,6 +435,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAcontrol = 3'd1;
 				ALUOUT =1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==BEQ) begin
 				PCwrite=0;
@@ -434,6 +452,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAb = 3'd0;
 				ULAcontrol = 3'd7;
+				estadoatual=estado4;
 			end
 			else if (opcode==BNE) begin
 				PCwrite=0;
@@ -450,6 +469,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAb = 3'd0;
 				ULAcontrol = 3'd7;
+				estadoatual=estado4;
 			end
 			else if (opcode==BLE) begin
 				PCwrite=0;
@@ -466,6 +486,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAb = 3'd0;
 				ULAcontrol = 3'd7;
+				estadoatual=estado4;
 			end
 			else if (opcode==BGT) begin
 				PCwrite=0;
@@ -482,6 +503,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAb = 3'd0;
 				ULAcontrol = 3'd7;
+				estadoatual=estado4;
 			end
 			else if (opcode==LB) begin
 				HILOWrite=0;
@@ -500,6 +522,7 @@ always @(posedge clock)begin
 				PCwrite = 1'd0;
 				MemoryAdress=3'd1;
 				MDR=1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==LH) begin
 				PCwrite=0;
@@ -518,6 +541,7 @@ always @(posedge clock)begin
 				PCwrite = 1'd0;
 				MemoryAdress =3'd1;
 				MDR=1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==LUI) begin
 				PCwrite=0;
@@ -533,6 +557,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				ShifterMux = 2'd2;
 				Shifter = 3'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==LW) begin
 				HILOWrite=0;
@@ -550,6 +575,7 @@ always @(posedge clock)begin
 				PCwrite = 1'd0;
 				MemoryAdress=3'd1;
 				MDR=1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==SB) begin
 				HILOWrite=0;
@@ -566,6 +592,7 @@ always @(posedge clock)begin
 				ULAcontrol=3'd1;
 				PCwrite = 1'd0;
 				ALUOUT = 1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==SH) begin
 				HILOWrite=0;
@@ -582,6 +609,7 @@ always @(posedge clock)begin
 				ULAcontrol=3'd1;
 				PCwrite = 1'd0;
 				ALUOUT = 1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==SLTI) begin
 				PCwrite=0;
@@ -600,6 +628,7 @@ always @(posedge clock)begin
 				WriteData = 3'd5;
 				WriteReg = 2'd1;
 				RegWrite = 1'd1;
+				estadoatual=estado0;
 			end
 			else if (opcode==SW) begin
 				HILOWrite=0;
@@ -616,6 +645,7 @@ always @(posedge clock)begin
 				ULAcontrol=3'd1;
 				PCwrite = 1'd0;
 				ALUOUT = 1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==J) begin
 				HILOWrite=0;
@@ -630,6 +660,7 @@ always @(posedge clock)begin
 				DIVcontrol=0;
 				PCwrite = 1'd1;
 				PCmux = 3'd2;
+				estadoatual=estado0;
 			end
 			else if (opcode==JAL) begin
 				HILOWrite=0;
@@ -645,6 +676,7 @@ always @(posedge clock)begin
 				ULAa = 2'd2;
 				ULAcontrol = 3'd0;
 				ALUOUT=1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==INC) begin
 				PCwrite=0;
@@ -659,6 +691,7 @@ always @(posedge clock)begin
 				wr=1'd0;
 				MemoryAdress=3'd7;
 				MDR=1'd1;
+				estadoatual=estado4;
 			end
 			else if (opcode==DEC) begin
 				PCwrite=0;
@@ -673,8 +706,8 @@ always @(posedge clock)begin
 				wr=1'd0;
 				MemoryAdress=3'd7;
 				MDR=1'd1;
+				estadoatual=estado4;
 			end
-			estadoatual=estado4;
 		end//end estado 3
 		estado4: begin
 		//um if pra cada opcode (continuacao do estado anterior)
