@@ -1,0 +1,23 @@
+
+State Machine - |CPU|MULT:multi|estado
+Name estado.fim estado.repeticao estado.inicial estado.espera 
+estado.espera 0 0 0 0 
+estado.inicial 0 0 1 1 
+estado.repeticao 0 1 0 1 
+estado.fim 1 0 0 1 
+
+State Machine - |CPU|DIV:div_|estado
+Name estado.fim estado.contagem estado.espera estado.inicial 
+estado.inicial 0 0 0 0 
+estado.espera 0 0 1 1 
+estado.contagem 0 1 0 1 
+estado.fim 1 0 0 1 
+
+State Machine - |CPU|CONTROL:control_|estadoatual
+Name estadoatual.estado5 estadoatual.estado4 estadoatual.estado3 estadoatual.estado2 estadoatual.estado1 estadoatual.estado0 
+estadoatual.estado0 0 0 0 0 0 0 
+estadoatual.estado1 0 0 0 0 1 1 
+estadoatual.estado2 0 0 0 1 0 1 
+estadoatual.estado3 0 0 1 0 0 1 
+estadoatual.estado4 0 1 0 0 0 1 
+estadoatual.estado5 1 0 0 0 0 1 

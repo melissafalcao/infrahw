@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="CPU">
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|Memoria:mem_|LPM_RAM_DQ:MEM_plus_One|altram:sram|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_6g91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|Memoria:mem_|LPM_RAM_DQ:MEM_plus_Three|altram:sram|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_6g91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|Memoria:mem_|LPM_RAM_DQ:MEM_plus_Two|altram:sram|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_6g91.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|CPU|Memoria:mem_|LPM_RAM_DQ:MEM|altram:sram|altsyncram:ram_block" CBX_FILE_NAME="altsyncram_6g91.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
